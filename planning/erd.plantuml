@@ -1,0 +1,72 @@
+@startuml spotify
+
+hide circle
+skinparam Linetype ortho
+skinparam Nodesep 110
+skinparam Ranksep 100
+
+entity Recipe {
+    * id: <<generated>>
+    ---
+    * name: text
+    * time_complexity: time
+    * text (steps): List<<text>>
+    * portions: number
+    * ingredients: text
+}
+
+entity User {
+    * id: <<generated>>
+    ---
+    * name: text
+    * username: text 
+    * password: string (salt + hash)
+    * isAdmin: bool
+}
+
+entity Categories {
+    Style of cuisine
+    * id: <<generated>>
+    ---
+    * name: text
+}
+
+entity Tag {
+    Nice to have
+    * id: <<generated>>
+    ---
+    * name: text
+}
+
+entity RecipeTag {
+    tag: uuid
+    recipe: uuid
+    ---
+}
+
+entity StarRating {
+    // It just works
+    * user: uuid
+    * recipe: uuid
+    ---
+    * stars: number
+}
+
+entity Image {
+    * url: url
+    ---
+    * recipe: uuid
+}
+
+Recipe ||..|{ Image
+
+Tag ||..o{ RecipeTag
+Recipe ||..o{ RecipeTag
+
+User ||..o{ StarRating
+Recipe ||..o{ StarRating
+
+User ||..o{ Recipe
+Categories ||..o{ Recipe
+
+@enduml
