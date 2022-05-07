@@ -24,11 +24,13 @@ entity User {
     * isAdmin: bool
 }
 
-entity Categories {
+entity Category {
     Style of cuisine
     * id: <<generated>>
     ---
     * name: text
+    * count_in_category: number
+    * preview_image: Image
 }
 
 entity Tag {
@@ -67,6 +69,6 @@ User ||..o{ StarRating
 Recipe ||..o{ StarRating
 
 User ||..o{ Recipe
-Categories ||..o{ Recipe
+Category ||..o{ Recipe
 
 @enduml
