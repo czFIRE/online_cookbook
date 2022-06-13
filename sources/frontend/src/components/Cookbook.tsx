@@ -9,7 +9,7 @@ import Navigator from './Navigator';
 import Content from './Content';
 import Header from './Header';
 
-function Copyright() {
+const Copyright = () => {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
@@ -166,7 +166,7 @@ theme = {
 
 const drawerWidth = 256;
 
-export function Paperbase() {
+export const Cookbook = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
 

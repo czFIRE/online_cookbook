@@ -1,8 +1,8 @@
 import React from 'react'
-import {Paperbase} from './components/Paperbase';
+import {Cookbook} from './components/Cookbook';
 
 export const App = () => {
   return <div className="App">
-    <Paperbase />
+    <Cookbook />
   </div>;
 };
