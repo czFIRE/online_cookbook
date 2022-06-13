@@ -14,19 +14,57 @@ import Box from '@mui/material/Box';
 
 export const Recipe = () => {
   return (
-    <Box>
-      <Typography color="text.primary" variant="h2">
-        Pizza
-      </Typography>
-			<Box component="img"
-        sx={{
-          height: 200,
-          width: 200,
-          maxHeight: { xs: 200, md: 167 },
-          maxWidth: { xs: 200, md: 250 },
-        }}
-        alt="Photo of pizza."
-				src="/pizza.jpg"/>
-    </Box>
+		<Paper sx={{ margin: 'auto', overflow: 'hidden' }}>
+			<Grid container direction="column" spacing={1}>
+				<Grid item>
+					<Typography color="text.primary" variant="h2">
+						Pizza
+					</Typography>
+				</Grid>
+				<Grid item>
+					<Grid container>
+						<Grid item>
+							<Box component="img"
+								sx={{
+									height: 200,
+									width: 200,
+									maxHeight: { xs: 200, md: 167 },
+									maxWidth: { xs: 200, md: 250 },
+								}}
+								alt="Photo of pizza."
+								src="/pizza.jpg"/>
+						</Grid>
+							<Grid item>
+								<Grid container justifyContent="space-between">
+									<Typography color="text.secondary">
+										2 porce
+									</Typography>
+									<Typography color="text.secondary">
+										3 hodiny
+									</Typography>
+									<Typography color="text.secondary">
+										Italiano
+									</Typography>
+								</Grid>
+								<Grid item>
+									<Typography color="text.secondary">
+										popisek goes here
+									</Typography>
+								</Grid>
+								<Grid item>
+									<Typography color="text.primary">
+										Ingredients:
+									</Typography>
+								</Grid>
+								<Grid item>
+									<Typography color="text.primary">
+										Steps:
+									</Typography>
+								</Grid>
+							</Grid>
+					</Grid>
+				</Grid>
+			</Grid>
+		</Paper>
   );
 }

@@ -20,7 +20,7 @@ import PhonelinkSetupIcon from '@mui/icons-material/PhonelinkSetup';
 
 const categories = [
   {
-    id: 'Build',
+    id: 'My recipes',
     children: [
       {
         id: 'Authentication',
@@ -38,7 +38,7 @@ const categories = [
     ],
   },
   {
-    id: 'Quality',
+    id: 'Account',
     children: [
       { id: 'Analytics', icon: <SettingsIcon /> },
       { id: 'Performance', icon: <TimerIcon /> },
@@ -62,20 +62,20 @@ const itemCategory = {
   px: 3,
 };
 
-export default function Navigator(props: DrawerProps) {
+export const Navigator = (props: DrawerProps) => {
   const { ...other } = props;
 
   return (
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
         <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: '#fff' }}>
-          Paperbase
+          Cookbook
         </ListItem>
         <ListItem sx={{ ...item, ...itemCategory }}>
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
-          <ListItemText>Project Overview</ListItemText>
+          <ListItemText>Home page</ListItemText>
         </ListItem>
         {categories.map(({ id, children }) => (
           <Box key={id} sx={{ bgcolor: '#101F33' }}>
