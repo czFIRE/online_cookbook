@@ -11,6 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
 
 export const Recipe = () => {
   return (
@@ -39,6 +40,7 @@ export const Recipe = () => {
 									<Typography color="text.secondary">
 										2 porce
 									</Typography>
+									<Divider orientation="vertical" />
 									<Typography color="text.secondary">
 										3 hodiny
 									</Typography>
