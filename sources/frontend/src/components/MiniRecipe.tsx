@@ -15,7 +15,10 @@ import Divider from '@mui/material/Divider';
 
 export const MiniRecipe = () => {
   return (
-		<Paper sx={{ margin: 'auto', overflow: 'hidden' }}>
+		<Paper sx={{ margin: 'auto',
+			height: 220,
+			width: 200,
+			overflow: 'hidden' }}>
 			<Grid container direction="column" spacing={1}>
 				<Grid item>
 					<Box component="img"
