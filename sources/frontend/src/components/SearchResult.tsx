@@ -12,11 +12,28 @@ import SearchIcon from '@mui/icons-material/Search';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
+import {MiniRecipe} from './MiniRecipe';
 
-export const Recipe = () => {
+export type RecipesProps = {
+	recipe: {
+			name: string;
+			time: string;
+			image: string;
+	}[];
+}
+
+export const SearchResult = () => {
+	const mockResult = {
+		"name": "Pizza",
+		"time": "60 minut",
+		"image": "/pizza.jpg"
+	}
+	const mockResults = [
+    mockResult, mockResult, mockResult, mockResult, mockResult
+  ]
   return (
 		<Grid container>
-			
+			{mockResults.map((p) => <MiniRecipe />)}
 		</Grid>
   );
 }
