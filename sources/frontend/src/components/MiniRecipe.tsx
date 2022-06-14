@@ -12,11 +12,12 @@ import SearchIcon from '@mui/icons-material/Search';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 export const MiniRecipe = () => {
   return (
 		<Paper sx={{ margin: 'auto',
-			height: 220,
+			height: 240,
 			width: 200,
 			overflow: 'hidden' }}>
 			<Grid container direction="column" spacing={1}>
@@ -32,6 +33,12 @@ export const MiniRecipe = () => {
 						src="/pizza.jpg"/>
 				</Grid>
 				<Grid item>
+					<Grid container direction="row">
+						<AccessTimeIcon color="inherit" />
+						<Typography color="text.primary" variant="h2">
+							60 min
+						</Typography>
+					</Grid>
 					<Typography color="text.primary" variant="h2">
 						Pizza
 					</Typography>
