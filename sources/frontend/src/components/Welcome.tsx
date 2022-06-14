@@ -15,6 +15,13 @@ import Divider from '@mui/material/Divider';
 
 export const Welcome = () => {
   return (
-		<Paper sx={{ margin: 'auto', overflow: 'hidden' }} />
+		<Grid sx={{ margin: 'auto', overflow: 'hidden' }}>
+			<Typography color="text.primary" variant="h2" align='center'>
+				Welcome to cookbook!
+			</Typography>
+			<Typography color="text.primary" align='center'>
+				Popis kucharky will be here
+			</Typography>
+		</Grid>
   );
 }
