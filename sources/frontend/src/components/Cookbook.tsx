@@ -5,11 +5,12 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-import Navigator from './Navigator';
+import {Navigator} from './Navigator';
 import Content from './Content';
-import Header from './Header';
+import {Header} from './Header';
+import {Recipe} from './Recipe';
 
-function Copyright() {
+const Copyright = () => {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
@@ -30,11 +31,16 @@ let theme = createTheme({
     },
   },
   typography: {
-    h5: {
+    h1: {
       fontWeight: 500,
       fontSize: 26,
       letterSpacing: 0.5,
     },
+    h2: {
+      fontWeight: 500,
+      fontSize: 20,
+      letterSpacing: 0.5,
+    }
   },
   shape: {
     borderRadius: 8,
@@ -166,7 +172,7 @@ theme = {
 
 const drawerWidth = 256;
 
-export default function Paperbase() {
+export const Cookbook = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
 
@@ -198,7 +204,7 @@ export default function Paperbase() {
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           <Header onDrawerToggle={handleDrawerToggle} />
           <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: '#eaeff1' }}>
-            <Content />
+            <Recipe />
           </Box>
           <Box component="footer" sx={{ p: 2, bgcolor: '#eaeff1' }}>
             <Copyright />

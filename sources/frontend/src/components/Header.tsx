@@ -13,6 +13,8 @@ import Tabs from '@mui/material/Tabs';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import SearchIcon from '@mui/icons-material/Search';
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
@@ -20,7 +22,7 @@ interface HeaderProps {
   onDrawerToggle: () => void;
 }
 
-export default function Header(props: HeaderProps) {
+export const Header = (props: HeaderProps) => {
   const { onDrawerToggle } = props;
 
   return (
@@ -40,30 +42,6 @@ export default function Header(props: HeaderProps) {
             </Grid>
             <Grid item xs />
             <Grid item>
-              <Link
-                href="/"
-                variant="body2"
-                sx={{
-                  textDecoration: 'none',
-                  color: lightColor,
-                  '&:hover': {
-                    color: 'common.white',
-                  },
-                }}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Go to docs
-              </Link>
-            </Grid>
-            <Grid item>
-              <Tooltip title="Alerts • No alerts">
-                <IconButton color="inherit">
-                  <NotificationsIcon />
-                </IconButton>
-              </Tooltip>
-            </Grid>
-            <Grid item>
               <IconButton color="inherit" sx={{ p: 0.5 }}>
                 <Avatar src="/static/images/avatar/1.jpg" alt="My Avatar" />
               </IconButton>
@@ -81,37 +59,36 @@ export default function Header(props: HeaderProps) {
         <Toolbar>
           <Grid container alignItems="center" spacing={1}>
             <Grid item xs>
-              <Typography color="inherit" variant="h5" component="h1">
-                Authentication
+              <Typography color="inherit" variant="h1" component="h1">
+                Cookbook
               </Typography>
-            </Grid>
-            <Grid item>
-              <Button
-                sx={{ borderColor: lightColor }}
-                variant="outlined"
-                color="inherit"
-                size="small"
-              >
-                Web setup
-              </Button>
-            </Grid>
-            <Grid item>
-              <Tooltip title="Help">
-                <IconButton color="inherit">
-                  <HelpIcon />
-                </IconButton>
-              </Tooltip>
             </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
       <AppBar component="div" position="static" elevation={0} sx={{ zIndex: 0 }}>
-        <Tabs value={0} textColor="inherit">
-          <Tab label="Users" />
-          <Tab label="Sign-in method" />
-          <Tab label="Templates" />
-          <Tab label="Usage" />
-        </Tabs>
+        <Toolbar>
+          <Grid container spacing={2} alignItems="center" sx={{ zIndex: 0 }}>
+            <Grid item>
+              <Tooltip title="Search">
+                <IconButton>
+                  <SearchIcon color="inherit" sx={{ display: 'block' }} />
+                </IconButton>
+              </Tooltip>
+            </Grid>
+            <Grid item xs>
+              <TextField
+                fullWidth
+                placeholder="Search by name of recipe of category"
+                InputProps={{
+                  disableUnderline: true,
+                  sx: { fontSize: 'default' },
+                }}
+                variant="standard"
+              />
+            </Grid>
+          </Grid>
+        </Toolbar>
       </AppBar>
     </React.Fragment>
   );
