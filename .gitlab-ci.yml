@@ -17,11 +17,7 @@ frontend_install:
     paths:
       - sources/frontend/node_modules/
     policy: push
-  artifacts:
     expire_in: 10 minutes
-    when: on_success
-    paths:
-      - sources/frontend/node_modules/
   tags:
     - shared-fi
 
@@ -34,11 +30,10 @@ frontend_test:
     paths:
       - sources/frontend/node_modules/
     policy: pull
+    expire_in: 10 minutes
   script:
     - cd sources/frontend
     - npm test
-  artifacts:
-    expire_in: 10 minutes
   tags:
     - shared-fi
 
