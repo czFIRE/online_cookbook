@@ -6,34 +6,43 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import AddIcon from '@mui/icons-material/Add';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { styled } from '@mui/material/styles';
+import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 const Input = styled('input')({
   display: 'none',
 });
 
 export const AddRecipe = () => {
+  const [stepCount, setStepCount] = useState(1);
+
+  const [inputFields, setInputFields] = useState([
+    { id: uuidv4(), step: "" },
+  ]);
+
   return (
     <Grid container direction="column">
       <Typography color="text.primary" variant="h2">
         Add new recipe
       </Typography>
       <TextField
-        id="outlined-name"
+        id="standard-basic"
         label="Name"
         margin="dense"
       />
       <TextField
-        id="outlined-name"
+        id="filled-basic"
         label="Time"
         margin="dense"
       />
       <TextField
-        id="outlined-name"
+        id="standard-basic"
         label="Count of serving"
         margin="dense"
       />
@@ -52,6 +61,16 @@ export const AddRecipe = () => {
       <Typography color="text.primary">
         Steps:
       </Typography>
+      <Grid>
+        <Grid>
+          {inputFields.map(inputField => (
+            <Grid>
+              <TextField id="standard-basic" value={inputField.step}/>
+            </Grid>
+          ))}
+        </Grid>
+        <IconButton onClick={() => setInputFields([...inputFields, { id: uuidv4(), step: "" }])}><AddIcon /></IconButton>
+      </Grid>
       <Typography color="text.primary">
         Ingrediences:
       </Typography>
