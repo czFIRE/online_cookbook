@@ -17,7 +17,6 @@ frontend_install:
     paths:
       - sources/frontend/node_modules/
     policy: push
-    expire_in: 10 minutes
   tags:
     - shared-fi
 
@@ -30,7 +29,6 @@ frontend_test:
     paths:
       - sources/frontend/node_modules/
     policy: pull
-    expire_in: 10 minutes
   script:
     - cd sources/frontend
     - npm test
