@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+  database:
+    image: "postgres:latest"
+    ports:
+      - 127.0.0.1:5432:5432
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-mysupersecretpassword}
+      - POSTGRES_DB=${POSTGRES_DB:-mydb}
+    volumes:
+      - demo_08_db_storage:/var/lib/postgresql/data
+
+volumes:
+  demo_08_db_storage:
