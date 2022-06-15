@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Recipe {
+  id             Int             @id @default(autoincrement())
+  name           String
+  timeComplexity Int
+  portions       Int
+  ingredients    String[]
+  steps          String[]
+  categoryId     Int
+  category       Category        @relation(fields: [categoryId], references: [id])
+  userId         Int
+  user           User            @relation(fields: [userId], references: [id])
+  Image          Image[]
+  StarRating     StarRating[]
+  TagsOnRecipes  TagsOnRecipes[]
+}
+
+model Category {
+  id     Int      @id @default(autoincrement())
+  name   String
+  Recipe Recipe[]
+}
+
+model Image {
+  url      String @id
+  recipeId Int
+  recipe   Recipe @relation(fields: [recipeId], references: [id])
+}
+
+model User {
+  id         Int          @id @default(autoincrement())
+  name       String
+  username   String
+  password   String
+  isAdmin    Boolean      @default(false)
+  Recipe     Recipe[]
+  StarRating StarRating[]
+}
+
+model StarRating {
+  stars    Int
+  userId   Int
+  user     User   @relation(fields: [userId], references: [id])
+  recipeId Int
+  recipe   Recipe @relation(fields: [recipeId], references: [id])
+
+  @@id([userId, recipeId])
+}
+
+model Tag {
+  id            Int             @id @default(autoincrement())
+  name          String
+  TagsOnRecipes TagsOnRecipes[]
+}
+
+model TagsOnRecipes {
+  tagId    Int
+  tag      Tag    @relation(fields: [tagId], references: [id])
+  recipeId Int
+  recipe   Recipe @relation(fields: [recipeId], references: [id])
+
+  @@id([tagId, recipeId])
+}
