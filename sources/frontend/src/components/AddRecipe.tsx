@@ -36,28 +36,43 @@ export const AddRecipe = () => {
         label="Name"
         margin="dense"
       />
-      <TextField
-        id="filled-basic"
-        label="Time"
-        margin="dense"
-      />
-      <TextField
-        id="standard-basic"
-        label="Count of serving"
-        margin="dense"
-      />
-      <Typography color="text.primary">
-        Insert Photo
-      </Typography>
-      <label htmlFor="contained-button-file">
-        <Input accept="image/*" id="contained-button-file" multiple type="file" />
-        <Button variant="contained" component="span">
-          Upload
-        </Button>
-      </label>
-      <Typography color="text.primary">
-        uploaded
-      </Typography>
+      <Grid container spacing={2}>
+        <Grid item>
+          <TextField
+            id="filled-basic"
+            label="Time"
+            margin="dense"
+          />
+        </Grid>
+        
+        <Grid item>
+          <TextField
+            id="standard-basic"
+            label="Count of serving"
+            margin="dense"
+          />
+        </Grid>
+
+        <Grid item>
+          <Grid container spacing={2}>
+            <Grid item>
+              <label htmlFor="contained-button-file">
+                <Input accept="image/*" id="contained-button-file" multiple type="file" />
+                <Button variant="contained" component="span">
+                  Upload photo
+                </Button>
+              </label>
+            </Grid>
+            
+            <Grid item>
+              <Typography color="text.primary">
+                uploaded
+              </Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+      
       <Typography color="text.primary">
         Steps:
       </Typography>
