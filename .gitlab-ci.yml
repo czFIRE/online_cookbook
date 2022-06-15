@@ -1,29 +1,11 @@
 image: node:lts-alpine3.16
 
 stages:
-  - frontend_install
   - frontend_test
-  - backend_install
   - backend_test
-
-frontend_install:
-  stage: frontend_install
-  script:
-    - cd sources/frontend
-    - npm config set registry ${CI_NPM_REGISTRY}
-    - npm install
-  cache:
-    key: frontend-build-cache
-    paths:
-      - sources/frontend/node_modules/
-    policy: push
-  tags:
-    - shared-fi
 
 frontend_test:
   stage: frontend_test
-  dependencies:
-    - frontend_install
   cache:
     key: frontend-build-cache
     paths:
@@ -31,44 +13,26 @@ frontend_test:
     policy: pull
   script:
     - cd sources/frontend
-    - npm test
-  tags:
-    - shared-fi
-
-
-
-backend_install:
-  stage: backend_install
-  script:
-    - cd sources/backend
     - npm config set registry ${CI_NPM_REGISTRY}
     - npm install
-  cache:
-    key: backend-build-cache
-    paths:
-      - sources/backend/node_modules/
-    policy: push
-  artifacts:
-    expire_in: 10 minutes
-    when: on_success
-    paths:
-      - sources/backend/node_modules/
+    - npm test
   tags:
     - shared-fi
 
 backend_test:
   stage: backend_test
-  dependencies:
-    - backend_install
   cache:
     key: backend-build-cache
     paths:
       - sources/backend/node_modules/
-    policy: pull
+    policy: push
   script:
     - cd sources/backend
+    - npm config set registry ${CI_NPM_REGISTRY}
+    - npm install
     - npm test
   artifacts:
     expire_in: 10 minutes
+    when: on_success
   tags:
     - shared-fi
