@@ -18,6 +18,8 @@ import TimerIcon from '@mui/icons-material/Timer';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PhonelinkSetupIcon from '@mui/icons-material/PhonelinkSetup';
 
+import {Link} from "react-router-dom";
+
 const categories = [
   {
     id: 'My recipes',
@@ -25,24 +27,25 @@ const categories = [
       {
         id: 'Authentication',
         icon: <PeopleIcon />,
+        linkTo: "/",
         active: true,
       },
-      { id: 'Database', icon: <DnsRoundedIcon /> },
-      { id: 'Storage', icon: <PermMediaOutlinedIcon /> },
-      { id: 'Hosting', icon: <PublicIcon /> },
-      { id: 'Functions', icon: <SettingsEthernetIcon /> },
+      { id: 'Database', icon: <DnsRoundedIcon />, linkTo: "/" },
+      { id: 'Storage', icon: <PermMediaOutlinedIcon />, linkTo: "/" },
+      { id: 'Hosting', icon: <PublicIcon />, linkTo: "/" },
+      { id: 'Functions', icon: <SettingsEthernetIcon />, linkTo: "/" },
       {
-        id: 'Machine learning',
-        icon: <SettingsInputComponentIcon />,
+        id: 'Add recipe',
+        icon: <SettingsInputComponentIcon />, linkTo: "/recipe/create"
       },
     ],
   },
   {
     id: 'Account',
     children: [
-      { id: 'Analytics', icon: <SettingsIcon /> },
-      { id: 'Performance', icon: <TimerIcon /> },
-      { id: 'Test Lab', icon: <PhonelinkSetupIcon /> },
+      { id: 'My recipes', icon: <SettingsIcon />, linkTo: "/" },
+      { id: 'My account', icon: <TimerIcon />, linkTo: "/" },
+      { id: 'Log out', icon: <PhonelinkSetupIcon />, linkTo: "/" },
     ],
   },
 ];
@@ -71,7 +74,7 @@ export const Navigator = (props: DrawerProps) => {
         <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: '#fff' }}>
           Cookbook
         </ListItem>
-        <ListItem sx={{ ...item, ...itemCategory }}>
+        <ListItem sx={{ ...item, ...itemCategory }} component={Link} to="/">
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
@@ -82,9 +85,9 @@ export const Navigator = (props: DrawerProps) => {
             <ListItem sx={{ py: 2, px: 3 }}>
               <ListItemText sx={{ color: '#fff' }}>{id}</ListItemText>
             </ListItem>
-            {children.map(({ id: childId, icon, active }) => (
-              <ListItem disablePadding key={childId}>
-                <ListItemButton selected={active} sx={item}>
+            {children.map(({ id: childId, icon: icon, active: active, linkTo: linkTo }) => (
+              <ListItem disablePadding key={childId} >
+                <ListItemButton selected={active} sx={item} component={Link} to={linkTo} >
                   <ListItemIcon>{icon}</ListItemIcon>
                   <ListItemText>{childId}</ListItemText>
                 </ListItemButton>
