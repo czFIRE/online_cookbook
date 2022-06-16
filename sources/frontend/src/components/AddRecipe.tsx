@@ -84,7 +84,7 @@ export const AddRecipe = () => {
         </Grid>
       </Grid>
       
-      <Grid item>
+      <Grid item sx={{mt: 1}}>
         <Grid container spacing={2}>
           <Grid item xs={4}>
             <Typography color="text.primary">
