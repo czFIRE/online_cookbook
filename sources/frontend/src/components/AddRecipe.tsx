@@ -129,6 +129,11 @@ export const AddRecipe = () => {
           </Grid>
         </Grid>
       </Grid>
+      <Grid item sx={{mt: 2}}>
+        <Button variant="contained">
+          Save
+        </Button>
+      </Grid>
     </Grid>
   );
 }
