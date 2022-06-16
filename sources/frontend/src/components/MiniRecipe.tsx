@@ -17,7 +17,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 export const MiniRecipe = () => {
   return (
 		<Paper sx={{ margin: 'auto',
-			height: 240,
+			height: 270,
 			width: 200,
 			overflow: 'hidden' }}>
 			<Grid container direction="column" spacing={1}>
@@ -25,9 +25,7 @@ export const MiniRecipe = () => {
 					<Box component="img"
 						sx={{
 							height: 200,
-							width: 200,
-							maxHeight: { xs: 200, md: 167 },
-							maxWidth: { xs: 200, md: 250 },
+							width: 200
 						}}
 						alt="Photo of pizza."
 						src="/pizza.jpg"/>
