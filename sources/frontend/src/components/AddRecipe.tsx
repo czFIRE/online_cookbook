@@ -1,16 +1,10 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
-import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
-import SearchIcon from '@mui/icons-material/Search';
-import RefreshIcon from '@mui/icons-material/Refresh';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
@@ -29,7 +23,6 @@ export const AddRecipe = () => {
 
   const removeStepFields = (id: any) => {
     const values  = [...stepFields];
-    console.log(id);
     values.splice(values.findIndex(value => value.id === id), 1);
     setStepFields(values);
   }
@@ -40,7 +33,6 @@ export const AddRecipe = () => {
 
   const removeIngrediceFields = (id: any) => {
     const values  = [...ingrediceFields];
-    console.log(id);
     values.splice(values.findIndex(value => value.id === id), 1);
     setIngrediceFields(values);
   }
