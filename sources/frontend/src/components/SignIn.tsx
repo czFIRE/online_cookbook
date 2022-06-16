@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 export const SignIn = () => {
   return (
 		<Grid>
-			<Typography color="text.primary" variant="h2">
+			<Typography color="text.primary" variant="h2" sx={{mb: 2}}>
         Sign In
       </Typography>
 			<Grid container direction="column">
@@ -26,7 +26,7 @@ export const SignIn = () => {
 				</Grid>
 				
 				<Grid item>
-					<Button variant="contained">
+					<Button variant="contained" sx={{mt: 2}}>
 						Sign In
 					</Button>
 				</Grid>
