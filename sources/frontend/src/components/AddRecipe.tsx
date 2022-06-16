@@ -47,7 +47,7 @@ export const AddRecipe = () => {
 
   return (
     <Grid container direction="column">
-      <Typography color="text.primary" variant="h2">
+      <Typography color="text.primary" variant="h2" sx={{mb: 2}}>
         Add new recipe
       </Typography>
       <TextField
