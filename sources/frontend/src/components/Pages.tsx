@@ -4,12 +4,13 @@ import { Recipe } from './Recipe';
 import { SearchResult } from  './SearchResult';
 import { Cookbook } from './Cookbook';
 import { App } from '../App';
+import { Welcome } from './Welcome';
 
 export const Pages = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/"                 element={<Cookbook />}/>
+        <Route path="/"                 element={<Welcome />}/>
         <Route path="/recipe/:id"       element={<Recipe />} />
         <Route path="/recipe/create"    element={<AddRecipe />} />
         <Route path="/search"           element={<SearchResult />} />

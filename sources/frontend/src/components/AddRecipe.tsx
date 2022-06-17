@@ -10,56 +10,90 @@ import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
+import { useNavigate, Link } from 'react-router-dom';
+
 const Input = styled('input')({
   display: 'none',
 });
 
 export const AddRecipe = () => {
-  const [stepCount, setStepCount] = useState(1);
+  const navigate = useNavigate();
 
-  const [stepFields, setStepFields] = useState([
-    { id: uuidv4(), step: "" },
+  const [stepField, setStepField] = useState([
+    { id: uuidv4(), value: "" },
   ]);
 
-  const removeStepFields = (id: any) => {
-    const values  = [...stepFields];
+  const removeStepField = (id: any) => {
+    const values  = [...stepField];
     values.splice(values.findIndex(value => value.id === id), 1);
-    setStepFields(values);
+    setStepField(values);
   }
 
-  const [ingrediceFields, setIngrediceFields] = useState([
-    { id: uuidv4(), ingredice: "" },
+  const [ingredientsField, setIngredientsField] = useState([
+    { id: uuidv4(), value: "" },
   ]);
 
-  const removeIngrediceFields = (id: any) => {
-    const values  = [...ingrediceFields];
+  const removeIngredientsField = (id: any) => {
+    const values  = [...ingredientsField];
     values.splice(values.findIndex(value => value.id === id), 1);
-    setIngrediceFields(values);
+    setIngredientsField(values);
   }
 
-  return (
+  const [basicField, setBasicField] = useState([
+    { id: uuidv4(), value: "" },
+  ]);
+
+  const handleChangeInput = (id: string, event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, field: { id: string; value: string; }[], setter: any) => {
+    const newInputFields = field.map(i => {
+      if(id === i.id) {
+        i.value = event.target.value
+      }
+      return i;
+    })
+    
+    setter(newInputFields);
+  }
+
+  const handleSubmit = () => {
+    //e.preventDefault();
+    console.log("Submitted");
+
+    // validate
+
+    // send it to the DB
+
+    // await DB response
+
+    // Show user "recipe added"
+
+    // redirect
+    navigate('/');
+  };
+
+  const elem = (
     <Grid container direction="column">
       <Typography color="text.primary" variant="h2" sx={{mb: 2}}>
         Add new recipe
       </Typography>
       <TextField
-        id="standard-basic"
+        id="name"
         label="Name"
         margin="dense"
       />
       <Grid container spacing={2} alignItems="center">
         <Grid item>
           <TextField
-            id="filled-basic"
+            id="time"
             label="Time"
             margin="dense"
+            //onChange={event => handleChangeInput("a", event, stepField, setStepField)}
           />
         </Grid>
         
         <Grid item>
           <TextField
-            id="standard-basic"
-            label="Count of serving"
+            id="servings"
+            label="Number of servings"
             margin="dense"
           />
         </Grid>
@@ -92,18 +126,21 @@ export const AddRecipe = () => {
             </Typography>
             <Grid>
               <Grid>
-                {stepFields.map(inputField => (
+                {stepField.map(inputField => (
                   <Grid container alignItems="center">
                     <TextField
-                      id="standard-basic"
-                      margin="dense"/>
-                    <IconButton disabled={stepFields.length === 1} onClick={() => removeStepFields(inputField.id)}>
+                      id={inputField.id}
+                      margin="dense"
+                      value={inputField.value}
+                      onChange={event => handleChangeInput(inputField.id, event, stepField, setStepField)}
+                      />
+                    <IconButton disabled={stepField.length === 1} onClick={() => removeStepField(inputField.id)}>
                       <DeleteIcon />
                     </IconButton>
                   </Grid>
                 ))}
               </Grid>
-              <IconButton onClick={() => setStepFields([...stepFields, { id: uuidv4(), step: "" }])}><AddIcon /></IconButton>
+              <IconButton onClick={() => setStepField([...stepField, { id: uuidv4(), value: "" }])}><AddIcon /></IconButton>
             </Grid>
           </Grid>
           
@@ -113,27 +150,36 @@ export const AddRecipe = () => {
             </Typography>
             <Grid>
               <Grid>
-                {ingrediceFields.map(inputField => (
+                {ingredientsField.map(inputField => (
                   <Grid container alignItems="center">
                     <TextField
-                      id="standard-basic"
-                      margin="dense"/>
-                    <IconButton disabled={ingrediceFields.length === 1} onClick={() => removeIngrediceFields(inputField.id)}>
+                      id={inputField.id}
+                      margin="dense"
+                      value={inputField.value}
+                      onChange={event => handleChangeInput(inputField.id, event, ingredientsField, setIngredientsField)}
+                      />
+                    <IconButton disabled={ingredientsField.length === 1} onClick={() => removeIngredientsField(inputField.id)}>
                       <DeleteIcon />
                     </IconButton>
                   </Grid>
                 ))}
               </Grid>
-              <IconButton onClick={() => setIngrediceFields([...ingrediceFields, { id: uuidv4(), ingredice: "" }])}><AddIcon /></IconButton>
+              <IconButton onClick={() => setIngredientsField([...ingredientsField, { id: uuidv4(), value: "" }])}><AddIcon /></IconButton>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
       <Grid item sx={{mt: 2}}>
-        <Button variant="contained">
+        <Button variant="contained" onClick={event => handleSubmit()}>
           Save
         </Button>
       </Grid>
     </Grid>
   );
+
+  console.log("ingredients:", ingredientsField);
+  console.log("steps:", stepField);
+  //console.log(recipeName);
+
+  return elem;
 }
