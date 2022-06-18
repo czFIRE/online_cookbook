@@ -12,6 +12,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { useNavigate, Link } from 'react-router-dom';
 
+import Card from '@mui/material/Card';
+import CardActionArea from '@mui/material/CardActionArea';
+import CardMedia from '@mui/material/CardMedia';
+
+
 const Input = styled('input')({
   display: 'none',
 });
@@ -40,6 +45,7 @@ export const AddRecipe = () => {
   }
 
   const [basicField, setBasicField] = useState([
+    { id: uuidv4(), value: "" },
     { id: uuidv4(), value: "" },
     { id: uuidv4(), value: "" },
     { id: uuidv4(), value: "" },
@@ -72,13 +78,26 @@ export const AddRecipe = () => {
 
   //const [errorCount, setError] = useState(0);
 
-  let errorCount = 0;
+  let errorCount: number = 0;
 
   const handleErrorChange = (cond: boolean) => {
     if (cond) errorCount++;
    
     return cond;
   }
+
+
+
+
+
+  const [file, setFile] = useState("");
+
+  function handleChange(e: any) {
+    let url = URL.createObjectURL(e.target.files[0]);
+    setFile(url);
+    console.log("url:", url);
+  }
+
 
   const elem = (
     <Grid container component="form" direction="column">
@@ -103,6 +122,10 @@ export const AddRecipe = () => {
             margin="dense"
             value={basicField[1].value}
             onChange={event => handleInputChange(basicField[1].id, event, basicField, setBasicField)}
+
+            InputProps={{
+              inputProps: { min: 1 }
+            }}
           />
         </Grid>
         
@@ -115,6 +138,10 @@ export const AddRecipe = () => {
             margin="dense"
             value={basicField[2].value}
             onChange={event => handleInputChange(basicField[2].id, event, basicField, setBasicField)}
+
+            InputProps={{
+              inputProps: { min: 1 }
+            }}
           />
         </Grid>
 
@@ -122,20 +149,61 @@ export const AddRecipe = () => {
           <Grid container spacing={2} alignItems="center">
             <Grid item>
               <label htmlFor="contained-button-file">
-                <Input accept="image/*" id="contained-button-file" multiple type="file" />
-                <Button variant="contained" component="span">
+                <Input 
+                  accept="image/*" 
+                  id="contained-button-file" 
+                  multiple 
+                  type="file"
+                  onChange={event => handleChange(event)}
+                />
+                <Button variant="contained" component="span" onClick={(event: any) => handleChange(event)}>
                   Upload photo
                 </Button>
               </label>
             </Grid>
-            
+
             <Grid item>
-              <Typography color="text.primary">
+            {
+                        file.length > 0 &&
+
+                        <>
+
+                        <Typography color="text.primary">
                 uploaded
               </Typography>
+
+                        <Card className={'a'}>
+                            <CardActionArea>
+                                <CardMedia
+                                    component="img"
+                                    alt="Contemplative Reptile"
+                                    height="140"
+                                    image={file}
+                                    title="Contemplative Reptile"
+                                />
+                            </CardActionArea>
+                        </Card>
+
+                        </>
+                    }
             </Grid>
+
           </Grid>
         </Grid>
+      </Grid>
+
+      <Grid container direction="column">
+        <Typography color="text.primary">
+          Meal description:
+        </Typography>
+        <TextField
+          error={handleErrorChange(basicField[3].value.length < 5)}
+          id="description"
+          label="Description"
+          margin="dense"
+          value={basicField[3].value}
+          onChange={event => handleInputChange(basicField[3].id, event, basicField, setBasicField)}
+        />
       </Grid>
       
       <Grid item sx={{mt: 1}}>
