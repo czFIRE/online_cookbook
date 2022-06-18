@@ -41,9 +41,11 @@ export const AddRecipe = () => {
 
   const [basicField, setBasicField] = useState([
     { id: uuidv4(), value: "" },
+    { id: uuidv4(), value: "" },
+    { id: uuidv4(), value: "" },
   ]);
 
-  const handleChangeInput = (id: string, event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, field: { id: string; value: string; }[], setter: any) => {
+  const handleInputChange = (id: string, event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, field: { id: string; value: string; }[], setter: any) => {
     const newInputFields = field.map(i => {
       if(id === i.id) {
         i.value = event.target.value
@@ -58,8 +60,6 @@ export const AddRecipe = () => {
     //e.preventDefault();
     console.log("Submitted");
 
-    // validate
-
     // send it to the DB
 
     // await DB response
@@ -70,31 +70,51 @@ export const AddRecipe = () => {
     navigate('/');
   };
 
+  //const [errorCount, setError] = useState(0);
+
+  let errorCount = 0;
+
+  const handleErrorChange = (cond: boolean) => {
+    if (cond) errorCount++;
+   
+    return cond;
+  }
+
   const elem = (
-    <Grid container direction="column">
+    <Grid container component="form" direction="column">
       <Typography color="text.primary" variant="h2" sx={{mb: 2}}>
         Add new recipe
       </Typography>
       <TextField
+        error={handleErrorChange(basicField[0].value.length < 5)}
         id="name"
         label="Name"
         margin="dense"
+        value={basicField[0].value}
+        onChange={event => handleInputChange(basicField[0].id, event, basicField, setBasicField)}
       />
       <Grid container spacing={2} alignItems="center">
         <Grid item>
           <TextField
+            error={handleErrorChange(basicField[1].value.length === 0)}
             id="time"
-            label="Time"
+            label="Time in minutes"
+            type="number"
             margin="dense"
-            //onChange={event => handleChangeInput("a", event, stepField, setStepField)}
+            value={basicField[1].value}
+            onChange={event => handleInputChange(basicField[1].id, event, basicField, setBasicField)}
           />
         </Grid>
         
         <Grid item>
           <TextField
+            error={handleErrorChange(basicField[2].value.length === 0)}
             id="servings"
             label="Number of servings"
+            type="number"
             margin="dense"
+            value={basicField[2].value}
+            onChange={event => handleInputChange(basicField[2].id, event, basicField, setBasicField)}
           />
         </Grid>
 
@@ -126,13 +146,15 @@ export const AddRecipe = () => {
             </Typography>
             <Grid>
               <Grid>
-                {stepField.map(inputField => (
+                {stepField.map((inputField, index) => (
                   <Grid container alignItems="center">
                     <TextField
+                      error={handleErrorChange(inputField.value.length < 1)}
                       id={inputField.id}
                       margin="dense"
+                      label={index}
                       value={inputField.value}
-                      onChange={event => handleChangeInput(inputField.id, event, stepField, setStepField)}
+                      onChange={event => handleInputChange(inputField.id, event, stepField, setStepField)}
                       />
                     <IconButton disabled={stepField.length === 1} onClick={() => removeStepField(inputField.id)}>
                       <DeleteIcon />
@@ -146,17 +168,19 @@ export const AddRecipe = () => {
           
           <Grid item xs={8}>
             <Typography color="text.primary">
-              Ingrediences:
+              Ingrediences (don't forget to add the unit of measurement):
             </Typography>
             <Grid>
               <Grid>
-                {ingredientsField.map(inputField => (
+                {ingredientsField.map((inputField, index) => (
                   <Grid container alignItems="center">
                     <TextField
+                      error={handleErrorChange(inputField.value.length < 1)}
                       id={inputField.id}
                       margin="dense"
+                      label={index}
                       value={inputField.value}
-                      onChange={event => handleChangeInput(inputField.id, event, ingredientsField, setIngredientsField)}
+                      onChange={event => handleInputChange(inputField.id, event, ingredientsField, setIngredientsField)}
                       />
                     <IconButton disabled={ingredientsField.length === 1} onClick={() => removeIngredientsField(inputField.id)}>
                       <DeleteIcon />
@@ -170,7 +194,7 @@ export const AddRecipe = () => {
         </Grid>
       </Grid>
       <Grid item sx={{mt: 2}}>
-        <Button variant="contained" onClick={event => handleSubmit()}>
+        <Button variant="contained" disabled={errorCount > 0} onClick={event => handleSubmit()}>
           Save
         </Button>
       </Grid>
@@ -179,7 +203,8 @@ export const AddRecipe = () => {
 
   console.log("ingredients:", ingredientsField);
   console.log("steps:", stepField);
-  //console.log(recipeName);
+  console.log("basic:", basicField);
+  console.log(errorCount);
 
   return elem;
 }
