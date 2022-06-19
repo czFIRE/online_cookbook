@@ -85,11 +85,7 @@ export const AddRecipe = () => {
     return cond;
   }
 
-
-
-
-
-  const [fileField, setFileField] = useState<{id: string, file: File, url: string}[]>([]);
+  const [fileField, setFileField] = useState<{ id: string, file: File, url: string }[]>([]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (fileField.length == 0) {
@@ -102,8 +98,8 @@ export const AddRecipe = () => {
 
     console.log("Got ", event.target.files.length, " files");
 
-    for (let i=0; i<event.target.files.length; i++) {
-      if(!event.target.files[i].type.includes('image')) {
+    for (let i = 0; i < event.target.files.length; i++) {
+      if (!event.target.files[i].type.includes('image')) {
         // give error to user
 
         console.log("This file is not an image!");
@@ -112,12 +108,12 @@ export const AddRecipe = () => {
       }
     }
 
-    let tmp: {id: string, file: File, url: string}[] = [];
+    let tmp: { id: string, file: File, url: string }[] = [];
 
-    for (let i=0; i<event.target.files.length; i++) {
-      let url = URL.createObjectURL(event.target.files[0]);
-  
-      tmp = [...tmp, {id: uuidv4(), file: event.target.files[i], url: url}];
+    for (let i = 0; i < event.target.files.length; i++) {
+      let url = URL.createObjectURL(event.target.files[i]);
+
+      tmp = [...tmp, { id: uuidv4(), file: event.target.files[i], url: url }];
     }
 
     console.log("temp:", tmp);
@@ -248,33 +244,43 @@ export const AddRecipe = () => {
           </Grid>
 
           <Grid item xs={12}>
-          <Grid item>
+            <Grid item>
               {
                 fileField.length > 0 &&
 
                 <>
-
-                  <Typography color="text.primary">
-                    uploaded
-                  </Typography>
-
-                  <Card className={'a'}>
-                    <CardActionArea>
-                      <CardMedia
-                        component="img"
-                        alt="Contemplative Reptile"
-                        height="140"
-                        width="140"
-                        image={fileField[0].url}
-                        title="Contemplative Reptile"
-                      />
-                    </CardActionArea>
-                  </Card>
-
+                  {fileField.map((inputField, index) => (
+                    <>
+                      <Typography color="text.primary">
+                        {inputField.file.name}
+                      </Typography>
+                      <Grid container alignItems="center">
+                        <Card className={'a'}>
+                          <CardActionArea>
+                            <CardMedia
+                              component="img"
+                              alt="Contemplative Reptile"
+                              height="255"
+                              width="255"
+                              image={inputField.url}
+                              title="Contemplative Reptile"
+                            />
+                          </CardActionArea>
+                        </Card>
+                        <IconButton /*disabled={stepField.length === 1}*/ onClick={() => {
+                          const values = [...fileField];
+                          values.splice(index, 1);
+                          setFileField(values);
+                        }}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </Grid>
+                    </>
+                  ))}
                 </>
               }
             </Grid>
-            
+
             <Typography color="text.primary">
               Upload your recipe photos:
             </Typography>
