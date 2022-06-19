@@ -22,35 +22,6 @@ export const list = async (req: Request, res: Response) => {
     })
 }
 
-export const listCategory = async (req: Request, res: Response) => {
-    const category = await getCategory(req.params.category as string);
-    if (!category?.id) {
-        return res.status(404).send({
-            status: "Missing",
-        })
-    }
-
-
-    const recipes = await prisma.recipe.findMany({
-        where: {
-            categoryId: category?.id
-        }
-    });
-
-    return res.send({
-        status: "success",
-        data: recipes
-    })
-}
-
-const getCategory = async (categoryName: string) => {
-    return await prisma.category.findFirst({
-        where: {
-            name: categoryName
-        }
-    })
-}
-
 export const show = async (req: Request, res: Response) => {
     const recipe = await prisma.recipe.findUnique({
         where: {
@@ -115,11 +86,11 @@ export const destroy = async (req: Request, res: Response) => {
         where: {
           id: req.params.id
         }
-      });
+    });
     
     return res.send({
         status: "sucess",
         data: request,
-        message: "Request removed"
+        message: "Recipe removed"
     })
 }
