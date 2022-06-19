@@ -16,6 +16,7 @@ model Recipe {
   steps          String[]
   categoryId     String
   userId         String
+  description    String
   category       Category        @relation(fields: [categoryId], references: [id])
   user           User            @relation(fields: [userId], references: [id])
   Image          Image[]
