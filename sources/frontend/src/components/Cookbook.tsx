@@ -255,7 +255,7 @@ export const Cookbook = (props: CookbookProps) => {
             )}
             {step == Components.UserInfo
                 && (
-                <UserInfo/>        
+                <UserInfo changeView={() => setStep(Components.ShowRecipe)}/>        
             )}
             {step == Components.SignIn
                 && (

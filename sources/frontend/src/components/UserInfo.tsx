@@ -4,9 +4,15 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { MiniRecipe } from './MiniRecipe';
+import { useNavigate } from 'react-router-dom';
 
-export const UserInfo = () => {
+export type UserInfoProps = {
+	changeView: () => void;
+}
+
+export const UserInfo = (props: UserInfoProps) => {
 	const mockResult = {
+		"url": "/recipe/111",
 		"name": "Pizza",
 		"time": "60 minut",
 		"image": "/pizza.jpg"
@@ -14,6 +20,7 @@ export const UserInfo = () => {
 	const mockResults = [
     mockResult, mockResult, mockResult, mockResult
   	]
+	const navigation = useNavigate();
   return (
 		<Grid>
 			<Typography color="text.primary" variant="h2" sx={{mb: 2}}>
@@ -24,8 +31,17 @@ export const UserInfo = () => {
         Recipes:
       </Typography>
 
-			<Grid container>
-				{mockResults.map((p) => <MiniRecipe />)}
+			<Grid container spacing={2}>
+				{mockResults.map((p) => {
+				return (
+					<Grid item>
+						<div onClick={() => {
+								navigation(p.url);
+								props.changeView();
+							}}>
+							<MiniRecipe />
+						</div>
+					</Grid>)})}
 			</Grid>
 		</Grid>
   );
