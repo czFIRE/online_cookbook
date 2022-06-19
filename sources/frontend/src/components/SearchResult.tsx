@@ -24,7 +24,7 @@ export type SearchProps = {
 }
 
 export type SearchRecipeProps = {
-	changeView: any;
+	changeView: () => void;
 }
 
 export const SearchResult = (props: SearchRecipeProps) => {

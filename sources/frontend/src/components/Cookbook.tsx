@@ -235,10 +235,7 @@ export const Cookbook = (props: CookbookProps) => {
           <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: '#eaeff1' }}>
             {step == Components.Welcome
                 && (
-                <Welcome changeView={() => {
-                  navigation('/search');
-                  
-                }}/>        
+                <Welcome changeView={() => setStep(Components.ShowRecipe)}/>        
             )}
             {step == Components.AddRecipe
                 && (

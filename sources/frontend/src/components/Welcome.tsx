@@ -13,13 +13,15 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import { MiniRecipe } from './MiniRecipe';
+import { useNavigate } from 'react-router-dom';
 
 export type WelcomeProps = {
-	changeView: any
+	changeView: () => void;
 }
 
 export const Welcome = (props: WelcomeProps) => {
 	const mockResult = {
+		"url": "/recipe/111",
 		"name": "Pizza",
 		"time": "60 minut",
 		"image": "/pizza.jpg"
@@ -27,6 +29,7 @@ export const Welcome = (props: WelcomeProps) => {
 	const mockResults = [
     mockResult, mockResult, mockResult, mockResult
   	]
+	  const navigation = useNavigate();
   	return (
 		<Grid sx={{ margin: 'auto', overflow: 'hidden' }}>
 			<Typography color="text.primary" variant="h2" align='center'>
@@ -39,7 +42,10 @@ export const Welcome = (props: WelcomeProps) => {
 				{mockResults.map((p) => {
 				return (
 					<Grid item>
-						<div onClick={props.changeView}>
+						<div onClick={() => {
+							navigation(p.url);
+							props.changeView();
+						}}>
 							<MiniRecipe />
 						</div>
 					</Grid>
