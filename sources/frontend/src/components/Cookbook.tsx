@@ -15,6 +15,7 @@ import {SearchResult} from './SearchResult';
 import {AddRecipe} from './AddRecipe';
 import { Register } from './Register';
 import { SignIn } from './SignIn';
+import {UserInfo} from './UserInfo';
 
 const Copyright = () => {
   return (
@@ -210,7 +211,7 @@ export const Cookbook = () => {
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           <Header onDrawerToggle={handleDrawerToggle} />
           <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: '#eaeff1' }}>
-            <AddRecipe />
+            <Recipe />
           </Box>
           <Box component="footer" sx={{ p: 2, bgcolor: '#eaeff1' }}>
             <Copyright />
