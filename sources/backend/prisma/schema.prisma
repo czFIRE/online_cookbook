@@ -8,15 +8,15 @@ datasource db {
 }
 
 model Recipe {
-  id             Int             @id @default(autoincrement())
+  id             String          @id @default(uuid())
   name           String
   timeComplexity Int
   portions       Int
   ingredients    String[]
   steps          String[]
-  categoryId     Int
+  categoryId     String
+  userId         String
   category       Category        @relation(fields: [categoryId], references: [id])
-  userId         Int
   user           User            @relation(fields: [userId], references: [id])
   Image          Image[]
   StarRating     StarRating[]
@@ -24,19 +24,19 @@ model Recipe {
 }
 
 model Category {
-  id     Int      @id @default(autoincrement())
+  id     String   @id @default(uuid())
   name   String
   Recipe Recipe[]
 }
 
 model Image {
   url      String @id
-  recipeId Int
+  recipeId String
   recipe   Recipe @relation(fields: [recipeId], references: [id])
 }
 
 model User {
-  id         Int          @id @default(autoincrement())
+  id         String       @id @default(uuid())
   name       String
   username   String
   password   String
@@ -47,25 +47,25 @@ model User {
 
 model StarRating {
   stars    Int
-  userId   Int
-  user     User   @relation(fields: [userId], references: [id])
-  recipeId Int
+  userId   String
+  recipeId String
   recipe   Recipe @relation(fields: [recipeId], references: [id])
+  user     User   @relation(fields: [userId], references: [id])
 
   @@id([userId, recipeId])
 }
 
 model Tag {
-  id            Int             @id @default(autoincrement())
+  id            String          @id @default(uuid())
   name          String
   TagsOnRecipes TagsOnRecipes[]
 }
 
 model TagsOnRecipes {
-  tagId    Int
-  tag      Tag    @relation(fields: [tagId], references: [id])
-  recipeId Int
+  tagId    String
+  recipeId String
   recipe   Recipe @relation(fields: [recipeId], references: [id])
+  tag      Tag    @relation(fields: [tagId], references: [id])
 
   @@id([tagId, recipeId])
 }

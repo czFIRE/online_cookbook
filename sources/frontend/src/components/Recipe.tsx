@@ -18,7 +18,7 @@ export const Recipe = () => {
 		<Paper sx={{ margin: 'auto', overflow: 'hidden' }}>
 			<Grid container direction="column" spacing={1}>
 				<Grid item>
-					<Typography color="text.primary" variant="h2">
+					<Typography color="text.primary" variant="h2" sx={{mt: 1}}>
 						Pizza
 					</Typography>
 				</Grid>
@@ -29,13 +29,13 @@ export const Recipe = () => {
 								sx={{
 									height: 200,
 									width: 200,
-									maxHeight: { xs: 200, md: 167 },
-									maxWidth: { xs: 200, md: 250 },
+									maxHeight: { xs: 250 },
+									maxWidth: { xs: 250 },
 								}}
 								alt="Photo of pizza."
 								src="/pizza.jpg"/>
 						</Grid>
-							<Grid item>
+							<Grid item sx={{ml: 2}}>
 								<Grid container justifyContent="space-between">
 									<Typography color="text.secondary">
 										2 porce

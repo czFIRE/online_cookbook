@@ -9,6 +9,13 @@ import {Navigator} from './Navigator';
 import Content from './Content';
 import {Header} from './Header';
 import {Recipe} from './Recipe';
+import {Welcome} from './Welcome';
+import {MiniRecipe} from './MiniRecipe';
+import {SearchResult} from './SearchResult';
+import {AddRecipe} from './AddRecipe';
+import { Register } from './Register';
+import { SignIn } from './SignIn';
+import {UserInfo} from './UserInfo';
 
 const Copyright = () => {
   return (

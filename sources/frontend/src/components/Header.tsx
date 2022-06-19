@@ -49,6 +49,7 @@ export const Header = (props: HeaderProps) => {
           </Grid>
         </Toolbar>
       </AppBar>
+
       <AppBar
         component="div"
         color="primary"
