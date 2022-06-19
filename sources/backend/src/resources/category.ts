@@ -29,6 +29,7 @@ export const categories = async (req: Request, res: Response) => {
     const categories = await prisma.category.findMany({
         select: {
             name: true,
+            id: true,
         }
     })
 
@@ -41,6 +42,6 @@ export const categories = async (req: Request, res: Response) => {
 
     return res.send({
         status: "success",
-        data: categories.flatMap(x => x.name),
+        data: categories,
     })
 }
