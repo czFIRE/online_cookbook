@@ -18,6 +18,7 @@ import { Register } from './Register';
 import { SignIn } from './SignIn';
 import {UserInfo} from './UserInfo';
 import { useNavigate } from 'react-router-dom';
+import { createContext } from 'vm';
 
 const Copyright = () => {
   return (
@@ -193,6 +194,7 @@ export type CookbookProps = {
   centralComponent: Components
 }
 
+
 export const Cookbook = (props: CookbookProps) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
@@ -248,7 +250,7 @@ export const Cookbook = (props: CookbookProps) => {
             )}
             {step == Components.SearchResult
                 && (
-                <SearchResult/>        
+                <SearchResult changeView={() => setStep(Components.ShowRecipe)}/>        
             )}
             {step == Components.UserInfo
                 && (

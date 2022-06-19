@@ -13,8 +13,9 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import {MiniRecipe} from './MiniRecipe';
+import { useNavigate } from 'react-router-dom';
 
-export type RecipesProps = {
+export type SearchProps = {
 	recipe: {
 			name: string;
 			time: string;
@@ -22,8 +23,13 @@ export type RecipesProps = {
 	}[];
 }
 
-export const SearchResult = () => {
+export type SearchRecipeProps = {
+	changeView: any;
+}
+
+export const SearchResult = (props: SearchRecipeProps) => {
 	const mockResult = {
+		"url": "/recipe/111",
 		"name": "Pizza",
 		"time": "60 minut",
 		"image": "/pizza.jpg"
@@ -31,9 +37,21 @@ export const SearchResult = () => {
 	const mockResults = [
     mockResult, mockResult, mockResult, mockResult, mockResult
   ]
+
+  const navigation = useNavigate();
+  
   return (
 		<Grid container spacing={2}>
-			{mockResults.map((p) => <MiniRecipe />)}
+			{mockResults.map((p) => {
+			return (
+				<Grid item>
+					<div onClick={() => {
+						navigation(p.url);
+						props.changeView();
+					}}>
+						<MiniRecipe />
+					</div>
+				</Grid>)})}
 		</Grid>
   );
 }
