@@ -36,17 +36,22 @@ export const Recipe = () => {
 								src="/pizza.jpg"/>
 						</Grid>
 							<Grid item sx={{ml: 2}}>
-								<Grid container justifyContent="space-between">
-									<Typography color="text.secondary">
-										2 porce
-									</Typography>
-									<Divider orientation="vertical" />
-									<Typography color="text.secondary">
-										3 hodiny
-									</Typography>
-									<Typography color="text.secondary">
-										Italiano
-									</Typography>
+								<Grid container spacing={3}>
+									<Grid item>
+										<Typography color="text.secondary">
+											{`Portions: `}
+										</Typography>
+									</Grid>
+									<Grid item>
+										<Typography color="text.secondary">
+											{`Time: `}
+										</Typography>
+									</Grid>
+									<Grid item>
+										<Typography color="text.secondary">
+											{`Category: `}
+										</Typography>
+									</Grid>
 								</Grid>
 								<Grid item>
 									<Typography color="text.secondary">
