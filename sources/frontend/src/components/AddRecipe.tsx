@@ -29,7 +29,7 @@ export const AddRecipe = () => {
   ]);
 
   const removeStepField = (id: any) => {
-    const values  = [...stepField];
+    const values = [...stepField];
     values.splice(values.findIndex(value => value.id === id), 1);
     setStepField(values);
   }
@@ -39,7 +39,7 @@ export const AddRecipe = () => {
   ]);
 
   const removeIngredientsField = (id: any) => {
-    const values  = [...ingredientsField];
+    const values = [...ingredientsField];
     values.splice(values.findIndex(value => value.id === id), 1);
     setIngredientsField(values);
   }
@@ -53,16 +53,16 @@ export const AddRecipe = () => {
 
   const handleInputChange = (id: string, event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, field: { id: string; value: string; }[], setter: any) => {
     const newInputFields = field.map(i => {
-      if(id === i.id) {
+      if (id === i.id) {
         i.value = event.target.value
       }
       return i;
     })
-    
+
     setter(newInputFields);
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
     //e.preventDefault();
     console.log("Submitted");
 
@@ -76,13 +76,12 @@ export const AddRecipe = () => {
     navigate('/');
   };
 
-  //const [errorCount, setError] = useState(0);
 
   let errorCount: number = 0;
 
   const handleErrorChange = (cond: boolean) => {
     if (cond) errorCount++;
-   
+
     return cond;
   }
 
@@ -90,18 +89,46 @@ export const AddRecipe = () => {
 
 
 
-  const [file, setFile] = useState("");
+  const [fileField, setFileField] = useState<{id: string, file: File, url: string}[]>([]);
 
-  function handleChange(e: any) {
-    let url = URL.createObjectURL(e.target.files[0]);
-    setFile(url);
-    console.log("url:", url);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (fileField.length == 0) {
+      setFileField([]);
+    }
+
+    if (!event.target.files) {
+      return;
+    }
+
+    console.log("Got ", event.target.files.length, " files");
+
+    for (let i=0; i<event.target.files.length; i++) {
+      if(!event.target.files[i].type.includes('image')) {
+        // give error to user
+
+        console.log("This file is not an image!");
+
+        return;
+      }
+    }
+
+    let tmp: {id: string, file: File, url: string}[] = [];
+
+    for (let i=0; i<event.target.files.length; i++) {
+      let url = URL.createObjectURL(event.target.files[0]);
+  
+      tmp = [...tmp, {id: uuidv4(), file: event.target.files[i], url: url}];
+    }
+
+    console.log("temp:", tmp);
+
+    setFileField([...fileField, ...tmp]);
   }
 
 
   const elem = (
     <Grid container component="form" direction="column">
-      <Typography color="text.primary" variant="h2" sx={{mb: 2}}>
+      <Typography color="text.primary" variant="h2" sx={{ mb: 2 }}>
         Add new recipe
       </Typography>
       <TextField
@@ -128,7 +155,7 @@ export const AddRecipe = () => {
             }}
           />
         </Grid>
-        
+
         <Grid item>
           <TextField
             error={handleErrorChange(basicField[2].value.length === 0)}
@@ -143,52 +170,6 @@ export const AddRecipe = () => {
               inputProps: { min: 1 }
             }}
           />
-        </Grid>
-
-        <Grid item>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item>
-              <label htmlFor="contained-button-file">
-                <Input 
-                  accept="image/*" 
-                  id="contained-button-file" 
-                  multiple 
-                  type="file"
-                  onChange={event => handleChange(event)}
-                />
-                <Button variant="contained" component="span" onClick={(event: any) => handleChange(event)}>
-                  Upload photo
-                </Button>
-              </label>
-            </Grid>
-
-            <Grid item>
-            {
-                        file.length > 0 &&
-
-                        <>
-
-                        <Typography color="text.primary">
-                uploaded
-              </Typography>
-
-                        <Card className={'a'}>
-                            <CardActionArea>
-                                <CardMedia
-                                    component="img"
-                                    alt="Contemplative Reptile"
-                                    height="140"
-                                    image={file}
-                                    title="Contemplative Reptile"
-                                />
-                            </CardActionArea>
-                        </Card>
-
-                        </>
-                    }
-            </Grid>
-
-          </Grid>
         </Grid>
       </Grid>
 
@@ -205,8 +186,8 @@ export const AddRecipe = () => {
           onChange={event => handleInputChange(basicField[3].id, event, basicField, setBasicField)}
         />
       </Grid>
-      
-      <Grid item sx={{mt: 1}}>
+
+      <Grid item sx={{ mt: 1 }}>
         <Grid container spacing={2}>
           <Grid item xs={4}>
             <Typography color="text.primary">
@@ -216,6 +197,9 @@ export const AddRecipe = () => {
               <Grid>
                 {stepField.map((inputField, index) => (
                   <Grid container alignItems="center">
+                    <Typography color="text.primary">
+                      Step {index + 1}: &nbsp;
+                    </Typography>
                     <TextField
                       error={handleErrorChange(inputField.value.length < 1)}
                       id={inputField.id}
@@ -223,7 +207,7 @@ export const AddRecipe = () => {
                       label={index}
                       value={inputField.value}
                       onChange={event => handleInputChange(inputField.id, event, stepField, setStepField)}
-                      />
+                    />
                     <IconButton disabled={stepField.length === 1} onClick={() => removeStepField(inputField.id)}>
                       <DeleteIcon />
                     </IconButton>
@@ -233,7 +217,7 @@ export const AddRecipe = () => {
               <IconButton onClick={() => setStepField([...stepField, { id: uuidv4(), value: "" }])}><AddIcon /></IconButton>
             </Grid>
           </Grid>
-          
+
           <Grid item xs={8}>
             <Typography color="text.primary">
               Ingrediences (don't forget to add the unit of measurement):
@@ -242,6 +226,9 @@ export const AddRecipe = () => {
               <Grid>
                 {ingredientsField.map((inputField, index) => (
                   <Grid container alignItems="center">
+                    <Typography color="text.primary">
+                      Ingredient {index + 1}: &nbsp;
+                    </Typography>
                     <TextField
                       error={handleErrorChange(inputField.value.length < 1)}
                       id={inputField.id}
@@ -249,7 +236,7 @@ export const AddRecipe = () => {
                       label={index}
                       value={inputField.value}
                       onChange={event => handleInputChange(inputField.id, event, ingredientsField, setIngredientsField)}
-                      />
+                    />
                     <IconButton disabled={ingredientsField.length === 1} onClick={() => removeIngredientsField(inputField.id)}>
                       <DeleteIcon />
                     </IconButton>
@@ -259,10 +246,62 @@ export const AddRecipe = () => {
               <IconButton onClick={() => setIngredientsField([...ingredientsField, { id: uuidv4(), value: "" }])}><AddIcon /></IconButton>
             </Grid>
           </Grid>
+
+          <Grid item xs={12}>
+          <Grid item>
+              {
+                fileField.length > 0 &&
+
+                <>
+
+                  <Typography color="text.primary">
+                    uploaded
+                  </Typography>
+
+                  <Card className={'a'}>
+                    <CardActionArea>
+                      <CardMedia
+                        component="img"
+                        alt="Contemplative Reptile"
+                        height="140"
+                        width="140"
+                        image={fileField[0].url}
+                        title="Contemplative Reptile"
+                      />
+                    </CardActionArea>
+                  </Card>
+
+                </>
+              }
+            </Grid>
+            
+            <Typography color="text.primary">
+              Upload your recipe photos:
+            </Typography>
+            <Grid item>
+              <label htmlFor="contained-button-file">
+                <Input
+                  accept="image/*"
+                  id="contained-button-file"
+                  multiple
+                  type="file"
+                  onChange={event => handleChange(event)}
+                />
+                <Button variant="contained" component="span" onClick={(event: any) => handleChange(event)}>
+                  Upload photo
+                </Button>
+              </label>
+            </Grid>
+          </Grid>
+
+
         </Grid>
       </Grid>
-      <Grid item sx={{mt: 2}}>
-        <Button variant="contained" disabled={errorCount > 0} onClick={event => handleSubmit()}>
+
+
+
+      <Grid item sx={{ mt: 2 }}>
+        <Button variant="contained" disabled={errorCount > 0 || fileField.length == 0} onClick={event => handleSubmit(event)}>
           Save
         </Button>
       </Grid>
@@ -273,6 +312,7 @@ export const AddRecipe = () => {
   console.log("steps:", stepField);
   console.log("basic:", basicField);
   console.log(errorCount);
+  console.log(fileField);
 
   return elem;
 }
