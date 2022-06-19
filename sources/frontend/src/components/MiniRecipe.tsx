@@ -14,6 +14,12 @@ import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
+export type MiniRecipeProps = {
+	name: string;
+	img: string;
+	time: string;
+}
+
 export const MiniRecipe = () => {
   return (
 		<Paper sx={{ margin: 'auto',
