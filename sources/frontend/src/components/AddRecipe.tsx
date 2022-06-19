@@ -62,6 +62,10 @@ export const AddRecipe = () => {
     setter(newInputFields);
   }
 
+  const [tagField, setTagField] = useState([
+    { id: uuidv4(), value: "" },
+  ]);
+
   const handleSubmit = (event) => {
     //e.preventDefault();
     console.log("Submitted");
@@ -120,6 +124,35 @@ export const AddRecipe = () => {
 
     setFileField([...fileField, ...tmp]);
   }
+
+
+
+  ///////////////////////////////
+  ///// TMP FOR SELECT, REPLACE WITH BACKEND
+  /////////////////////////////////
+
+  const currencies = [
+    {
+      value: 'USD',
+      label: '$',
+    },
+    {
+      value: 'EUR',
+      label: '€',
+    },
+    {
+      value: 'BTC',
+      label: '฿',
+    },
+    {
+      value: 'JPY',
+      label: '¥',
+    },
+  ];
+
+  ////////////////////////////////////
+  ////////////////////////////////////
+  ////////////////////////////////////
 
 
   const elem = (
@@ -245,7 +278,7 @@ export const AddRecipe = () => {
             </Grid>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item>
             <Grid container direction="row">
               {
                 fileField.length > 0 &&
@@ -269,7 +302,7 @@ export const AddRecipe = () => {
                             />
                           </CardActionArea>
                         </Card>
-                        <IconButton /*disabled={stepField.length === 1}*/ onClick={() => {
+                        <IconButton onClick={() => {
                           const values = [...fileField];
                           values.splice(index, 1);
                           setFileField(values);
@@ -283,7 +316,7 @@ export const AddRecipe = () => {
               }
             </Grid>
 
-            <Typography color="text.primary">
+            <Typography color="text.primary" sx={{ mt: 2 }}>
               Upload your recipe photos:
             </Typography>
             <Grid item>
@@ -306,7 +339,50 @@ export const AddRecipe = () => {
         </Grid>
       </Grid>
 
-
+      <Grid item sx={{ mt: 3 }} xs={8}>
+        <Typography color="text.primary">
+          Tags:
+        </Typography>
+        <Grid>
+          <Grid>
+            {tagField.map((inputField, index) => (
+              <Grid container alignItems="center">
+                <Typography color="text.primary">
+                  Tag {index + 1}: &nbsp;
+                </Typography>
+                <TextField
+                  error={handleErrorChange(inputField.value.length < 1)}
+                  id={inputField.id}
+                  margin="dense"
+                  label={index}
+                  value={inputField.value}
+                  onChange={event => handleInputChange(inputField.id, event, tagField, setTagField)}
+                
+                  select
+                  SelectProps={{
+                    native: true,
+                  }}
+                  helperText="Please select your currency"
+                >
+                {currencies.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+                </TextField>
+                <IconButton disabled={tagField.length === 1} onClick={() => {
+                  const values = [...tagField];
+                  values.splice(index, 1);
+                  setTagField(values);
+                }}>
+                  <DeleteIcon />
+                </IconButton>
+              </Grid>
+            ))}
+          </Grid>
+          <IconButton onClick={() => setTagField([...tagField, { id: uuidv4(), value: "" }])}><AddIcon /></IconButton>
+        </Grid>
+      </Grid>
 
       <Grid item sx={{ mt: 2 }}>
         <Button variant="contained" disabled={errorCount > 0 || fileField.length == 0} onClick={event => handleSubmit(event)}>
@@ -321,6 +397,7 @@ export const AddRecipe = () => {
   console.log("basic:", basicField);
   console.log(errorCount);
   console.log(fileField);
+  console.log(tagField);
 
   return elem;
 }
