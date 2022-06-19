@@ -13,6 +13,20 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 
+export type RecipeProps = {
+	name: string,
+	img: string,
+	portions: number,
+	time: string,
+	category: string,
+	ingrediences: {
+		ingrediece: string
+	}[],
+	steps: {
+		step: string
+	}[]
+}
+
 export const Recipe = () => {
   return (
 		<Paper sx={{ margin: 'auto', overflow: 'hidden' }}>
