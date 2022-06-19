@@ -31,12 +31,9 @@ const categories = [
         active: true,
       },
       { id: 'Database', icon: <DnsRoundedIcon />, linkTo: "/" },
-      { id: 'Storage', icon: <PermMediaOutlinedIcon />, linkTo: "/" },
-      { id: 'Hosting', icon: <PublicIcon />, linkTo: "/" },
-      { id: 'Functions', icon: <SettingsEthernetIcon />, linkTo: "/" },
       {
         id: 'Add recipe',
-        icon: <SettingsInputComponentIcon />, linkTo: "/recipe/create"
+        icon: <PermMediaOutlinedIcon />, linkTo: "/recipe/create"
       },
     ],
   },
@@ -65,16 +62,35 @@ const itemCategory = {
   px: 3,
 };
 
-export const Navigator = (props: DrawerProps) => {
+export type NavigatorProps = {
+  PaperProps: { style: {
+    width: number;
+  }};
+  permanent: boolean;
+  open?: boolean;
+  sx?: {display: {
+    sm: string; xs: string;
+  }};
+  onClose?: () => void;
+  changeView: () => void;
+}
+
+export const Navigator = (props: NavigatorProps) => {
   const { ...other } = props;
 
+  const variantValue: "permanent" | "temporary" = props.permanent === true ? "permanent" : "temporary";
+
   return (
-    <Drawer variant="permanent" {...other}>
+    <Drawer variant={variantValue} {...other}>
       <List disablePadding>
         <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: '#fff' }}>
           Cookbook
         </ListItem>
-        <ListItem sx={{ ...item, ...itemCategory }} component={Link} to="/">
+        <ListItem
+          sx={{ ...item, ...itemCategory }}
+          component={Link}
+          to="/"
+          onClick={props.changeView}>
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>

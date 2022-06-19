@@ -217,14 +217,17 @@ export const Cookbook = (props: CookbookProps) => {
           {isSmUp ? null : (
             <Navigator
               PaperProps={{ style: { width: drawerWidth } }}
-              variant="temporary"
+              permanent={false}
               open={mobileOpen}
               onClose={handleDrawerToggle}
+              changeView={() => setStep(Components.Welcome)}
             />
           )}
           <Navigator
             PaperProps={{ style: { width: drawerWidth } }}
+            permanent={true}
             sx={{ display: { sm: 'block', xs: 'none' } }}
+            changeView={() => setStep(Components.Welcome)}
           />
         </Box>
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
