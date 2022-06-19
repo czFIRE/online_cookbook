@@ -75,14 +75,14 @@ export const AddRecipe = () => {
       timeComplexity: +basicField[1].value,
       portions: +basicField[2].value,
       ingredients: "abc",
-      //description: basicField[3].value,
+      description: basicField[3].value,
       steps: stepField[0].value,
-      categoryId: "489c73f3-4fb0-45a0-a188-cd11a66cac1e",
+      categoryId: categoryOptions[0].id,
       userId: "f8fb2811-b24a-495e-aa5a-840ba5cb1a34",
     };
     const url = "//localhost:3003/recipe";
-    await axios.post(url, body).then( (res) => {
-      console.log(res)
+    let res = await axios.post(url, body).then( (x) => {
+      console.log(x)
     });
 
     // send it to the DB
@@ -140,34 +140,7 @@ export const AddRecipe = () => {
     setFileField([...fileField, ...tmp]);
   }
 
-
-
-  ///////////////////////////////
-  ///// TMP FOR SELECT, REPLACE WITH BACKEND
-  /////////////////////////////////
-
-  const currencies = [
-    {
-      value: 'USD',
-      label: '$',
-    },
-    {
-      value: 'EUR',
-      label: '€',
-    },
-    {
-      value: 'BTC',
-      label: '฿',
-    },
-    {
-      value: 'JPY',
-      label: '¥',
-    },
-  ];
-
-  ////////////////////////////////////
-  ////////////////////////////////////
-  ////////////////////////////////////
+  const [categoryOptions, setCategoryOptions] = useState<{name: string, id: string}[]>([]);
 
 
   const elem = (
@@ -377,11 +350,24 @@ export const AddRecipe = () => {
                   SelectProps={{
                     native: true,
                   }}
-                  helperText="Please select your currency"
+                  helperText="Please select your category"
+
+                  onClick={async () => {
+                    if (categoryOptions.length === 0) {
+                      let res = await axios.get("//localhost:3003/category");
+
+                      if (res.statusText != "OK") {
+                        console.log("Error here:", res);
+                        return;
+                      }
+
+                      setCategoryOptions(res.data.data);
+                    }
+                  }}
                 >
-                {currencies.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
+                {categoryOptions.map((option) => (
+                  <option key={option.id} value={option.name}>
+                    {option.name}
                   </option>
                 ))}
                 </TextField>

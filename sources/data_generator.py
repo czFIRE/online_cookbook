@@ -19,9 +19,9 @@ for i in range(to_insert):
       'name': random.choice(adjectives) + " " + random.choice(nouns),
       'timeComplexity': random.randint(0, 50),
       'portions': i,
-      'ingredients': random.choices(adjectives, k=3),
-      #description: basicField[3].value,
-      'steps': random.choices(nouns, k=2),
+      'ingredients': random.choices(adjectives, k=1),
+      'description': "basicField[3].value",
+      'steps': random.choices(nouns, k=1),
       'categoryId': "489c73f3-4fb0-45a0-a188-cd11a66cac1e",
       'userId': "f8fb2811-b24a-495e-aa5a-840ba5cb1a34",
     }
