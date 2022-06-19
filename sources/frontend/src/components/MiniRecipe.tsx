@@ -19,7 +19,8 @@ export const MiniRecipe = () => {
 		<Paper sx={{ margin: 'auto',
 			height: 270,
 			width: 200,
-			overflow: 'hidden' }}>
+			overflow: 'hidden',
+			mt: 2 }}>
 			<Grid container direction="column" spacing={1}>
 				<Grid item>
 					<Box component="img"

@@ -32,7 +32,7 @@ export const SearchResult = () => {
     mockResult, mockResult, mockResult, mockResult, mockResult
   ]
   return (
-		<Grid container>
+		<Grid container spacing={2}>
 			{mockResults.map((p) => <MiniRecipe />)}
 		</Grid>
   );

@@ -14,7 +14,7 @@ export const Pages = () => {
         <Route path="/"                 element={<Cookbook centralComponent={Components.Welcome} />}/>
         <Route path="/recipe/:id"       element={<Cookbook centralComponent={Components.ShowRecipe} />} />
         <Route path="/recipe/create"    element={<Cookbook centralComponent={Components.AddRecipe} />} />
-        <Route path="/search"           element={<Cookbook centralComponent={Components.ShowRecipe} />} />
+        <Route path="/search"           element={<Cookbook centralComponent={Components.SearchResult} />} />
         
         <Route path="/cookbook"         element={<Cookbook centralComponent={Components.Welcome} />}/>
         <Route path="/app"              element={<App />}/>
