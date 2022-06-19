@@ -41,6 +41,6 @@ export const categories = async (req: Request, res: Response) => {
 
     return res.send({
         status: "success",
-        data: categories
+        data: categories.flatMap(x => x.name),
     })
 }
