@@ -35,12 +35,14 @@ export const Welcome = (props: WelcomeProps) => {
 			<Typography color="text.primary" align='center'>
 				Try our the best recipes!
 			</Typography>
-			<Grid container>
+			<Grid container spacing={2}>
 				{mockResults.map((p) => {
 				return (
-					<div onClick={props.changeView}>
-						<MiniRecipe />
-					</div>
+					<Grid item>
+						<div onClick={props.changeView}>
+							<MiniRecipe />
+						</div>
+					</Grid>
 				)})}
 			</Grid>
 		</Grid>
