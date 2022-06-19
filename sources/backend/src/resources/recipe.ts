@@ -6,6 +6,7 @@ const recipeSchema = object({
     name: string().required(),
     timeComplexity: number().required(),
     portions: number().required(),
+    description: string().required(),
     ingredients: string().required(),
     steps: string().required(),
     categoryId: string().required().uuid(),

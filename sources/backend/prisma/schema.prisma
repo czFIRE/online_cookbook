@@ -14,6 +14,7 @@ model Recipe {
   portions       Int
   ingredients    String[]
   steps          String[]
+  description    String
   categoryId     String
   userId         String
   category       Category        @relation(fields: [categoryId], references: [id])
