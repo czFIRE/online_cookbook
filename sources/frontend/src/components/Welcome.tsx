@@ -14,7 +14,11 @@ import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import { MiniRecipe } from './MiniRecipe';
 
-export const Welcome = () => {
+export type WelcomeProps = {
+	changeView: any
+}
+
+export const Welcome = (props: WelcomeProps) => {
 	const mockResult = {
 		"name": "Pizza",
 		"time": "60 minut",
@@ -32,7 +36,12 @@ export const Welcome = () => {
 				Try our the best recipes!
 			</Typography>
 			<Grid container>
-				{mockResults.map((p) => <MiniRecipe />)}
+				{mockResults.map((p) => {
+				return (
+					<div onClick={props.changeView}>
+						<MiniRecipe />
+					</div>
+				)})}
 			</Grid>
 		</Grid>
   );

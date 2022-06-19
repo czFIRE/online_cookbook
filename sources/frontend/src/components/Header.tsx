@@ -20,6 +20,7 @@ const lightColor = 'rgba(255, 255, 255, 0.7)';
 
 interface HeaderProps {
   onDrawerToggle: () => void;
+  changeView: any;
 }
 
 export const Header = (props: HeaderProps) => {
@@ -72,7 +73,7 @@ export const Header = (props: HeaderProps) => {
           <Grid container spacing={2} alignItems="center" sx={{ zIndex: 0 }}>
             <Grid item>
               <Tooltip title="Search">
-                <IconButton>
+                <IconButton onClick={props.changeView}>
                   <SearchIcon color="inherit" sx={{ display: 'block' }} />
                 </IconButton>
               </Tooltip>

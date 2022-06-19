@@ -17,6 +17,7 @@ import {AddRecipe} from './AddRecipe';
 import { Register } from './Register';
 import { SignIn } from './SignIn';
 import {UserInfo} from './UserInfo';
+import { useNavigate } from 'react-router-dom';
 
 const Copyright = () => {
   return (
@@ -201,6 +202,7 @@ export const Cookbook = (props: CookbookProps) => {
   };
 
   const [step, setStep] = useState<Components>(props.centralComponent);
+  const navigation = useNavigate();
 
   return (
     <ThemeProvider theme={theme}>
@@ -224,11 +226,17 @@ export const Cookbook = (props: CookbookProps) => {
           />
         </Box>
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-          <Header onDrawerToggle={handleDrawerToggle} />
+          <Header onDrawerToggle={handleDrawerToggle} changeView={() => {
+            navigation('/search');
+            setStep(Components.SearchResult);
+          }} />
           <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: '#eaeff1' }}>
             {step == Components.Welcome
                 && (
-                <Welcome/>        
+                <Welcome changeView={() => {
+                  navigation('/search');
+                  
+                }}/>        
             )}
             {step == Components.AddRecipe
                 && (
@@ -240,7 +248,7 @@ export const Cookbook = (props: CookbookProps) => {
             )}
             {step == Components.SearchResult
                 && (
-                <Recipe/>        
+                <SearchResult/>        
             )}
             {step == Components.UserInfo
                 && (
