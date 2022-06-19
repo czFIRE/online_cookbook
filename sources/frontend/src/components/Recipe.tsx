@@ -29,8 +29,8 @@ export const Recipe = () => {
 								sx={{
 									height: 200,
 									width: 200,
-									maxHeight: { xs: 200, md: 167 },
-									maxWidth: { xs: 200, md: 250 },
+									maxHeight: { xs: 200, md: 150 },
+									maxWidth: { xs: 200, md: 150 },
 								}}
 								alt="Photo of pizza."
 								src="/pizza.jpg"/>
