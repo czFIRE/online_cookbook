@@ -220,14 +220,14 @@ export const Cookbook = (props: CookbookProps) => {
               permanent={false}
               open={mobileOpen}
               onClose={handleDrawerToggle}
-              changeView={() => setStep(Components.Welcome)}
+              changeView={(comp: Components) => setStep(comp)}
             />
           )}
           <Navigator
             PaperProps={{ style: { width: drawerWidth } }}
             permanent={true}
             sx={{ display: { sm: 'block', xs: 'none' } }}
-            changeView={() => setStep(Components.Welcome)}
+            changeView={(comp: Components) => setStep(comp)}
           />
         </Box>
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>

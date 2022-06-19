@@ -17,6 +17,7 @@ import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputCompone
 import TimerIcon from '@mui/icons-material/Timer';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PhonelinkSetupIcon from '@mui/icons-material/PhonelinkSetup';
+import { Components } from './Cookbook';
 
 import {Link} from "react-router-dom";
 
@@ -72,7 +73,7 @@ export type NavigatorProps = {
     sm: string; xs: string;
   }};
   onClose?: () => void;
-  changeView: () => void;
+  changeView: (comp: Components) => void;
 }
 
 export const Navigator = (props: NavigatorProps) => {
@@ -90,7 +91,7 @@ export const Navigator = (props: NavigatorProps) => {
           sx={{ ...item, ...itemCategory }}
           component={Link}
           to="/"
-          onClick={props.changeView}>
+          onClick={() => props.changeView(Components.Welcome)}>
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
@@ -101,8 +102,10 @@ export const Navigator = (props: NavigatorProps) => {
             <ListItem sx={{ py: 2, px: 3 }}>
               <ListItemText sx={{ color: '#fff' }}>{id}</ListItemText>
             </ListItem>
-            {children.map(({ id: childId, icon: icon, active: active, linkTo: linkTo }) => (
-              <ListItem disablePadding key={childId} >
+            {children.map(({ id: childId, icon: icon, active: active,
+              linkTo: linkTo }) => (
+              <ListItem disablePadding key={childId}
+                onClick={() => {props.changeView(Components.Welcome)}}>
                 <ListItemButton selected={active} sx={item} component={Link} to={linkTo} >
                   <ListItemIcon>{icon}</ListItemIcon>
                   <ListItemText>{childId}</ListItemText>
