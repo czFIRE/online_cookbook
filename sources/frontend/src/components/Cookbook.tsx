@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -179,13 +180,27 @@ theme = {
 
 const drawerWidth = 256;
 
-export const Cookbook = () => {
+export enum Components {
+  Welcome,
+  AddRecipe,
+  ShowRecipe,
+  SearchResult,
+  UserInfo
+}
+
+export type CookbookProps = {
+  centralComponent: Components
+}
+
+export const Cookbook = (props: CookbookProps) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  const [step, setStep] = useState<Components>(props.centralComponent);
 
   return (
     <ThemeProvider theme={theme}>
@@ -211,7 +226,26 @@ export const Cookbook = () => {
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           <Header onDrawerToggle={handleDrawerToggle} />
           <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: '#eaeff1' }}>
-            <Recipe />
+            {step == Components.Welcome
+                && (
+                <Welcome/>        
+            )}
+            {step == Components.AddRecipe
+                && (
+                <AddRecipe/>        
+            )}
+            {step == Components.ShowRecipe
+                && (
+                <Recipe/>        
+            )}
+            {step == Components.SearchResult
+                && (
+                <Recipe/>        
+            )}
+            {step == Components.UserInfo
+                && (
+                <UserInfo/>        
+            )}
           </Box>
           <Box component="footer" sx={{ p: 2, bgcolor: '#eaeff1' }}>
             <Copyright />
