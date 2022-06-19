@@ -15,6 +15,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardMedia from '@mui/material/CardMedia';
+import axios from 'axios';
 
 
 const Input = styled('input')({
@@ -66,9 +67,23 @@ export const AddRecipe = () => {
     { id: uuidv4(), value: "" },
   ]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     //e.preventDefault();
     console.log("Submitted");
+    const body = {
+      name: basicField[0].value,
+      timeComplexity: +basicField[1].value,
+      portions: +basicField[2].value,
+      ingredients: "abc",
+      //description: basicField[3].value,
+      steps: stepField[0].value,
+      categoryId: "489c73f3-4fb0-45a0-a188-cd11a66cac1e",
+      userId: "f8fb2811-b24a-495e-aa5a-840ba5cb1a34",
+    };
+    const url = "//localhost:3003/recipe";
+    await axios.post(url, body).then( (res) => {
+      console.log(res)
+    });
 
     // send it to the DB
 
@@ -77,7 +92,7 @@ export const AddRecipe = () => {
     // Show user "recipe added"
 
     // redirect
-    navigate('/');
+    // navigate('/');
   };
 
 

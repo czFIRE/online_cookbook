@@ -43,4 +43,4 @@ api.get('/user/?:id', user.profile);
 /**
  * Start listening on connections
  */
-api.listen(3000, () => console.log(`Example app listening on port ${3000}`));
+api.listen(3003, () => console.log(`Example app listening on port ${3003}`));

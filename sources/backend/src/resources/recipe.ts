@@ -72,7 +72,7 @@ export const show = async (req: Request, res: Response) => {
 
 export const update = async (req: Request, res: Response) => {
     return res.send({
-        status: 'success'
+        status: 'success',
     })
 }
 
@@ -91,7 +91,7 @@ export const create = async (req: Request, res: Response) => {
 
         return res.send({
             status: 'success',
-            data: recipe,
+            data: recipe.id,
             message: 'Stored to system'
         })
     } catch (e) {

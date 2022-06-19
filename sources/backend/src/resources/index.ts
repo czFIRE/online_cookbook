@@ -1,4 +1,4 @@
-import * as signUp from "./signup"
+import * as signUp from "./signUp"
 import * as landingPage from "./landingPage"
 import * as login from "./login"
 import * as recipe from "./recipe"
