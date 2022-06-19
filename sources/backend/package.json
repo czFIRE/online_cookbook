@@ -4,7 +4,7 @@
   "description": "Cookbook",
   "main": "dist/index.js",
   "scripts": {
-    "start": "PORT=4000 nodemon src/index.ts",
+    "start": "ts-node src/index.ts",
     "reset": "node src/reset.mjs",
     "test": "jest -i"
   },
