@@ -187,7 +187,8 @@ export enum Components {
   AddRecipe,
   ShowRecipe,
   SearchResult,
-  UserInfo
+  UserInfo,
+  SignIn
 }
 
 export type CookbookProps = {
@@ -255,6 +256,10 @@ export const Cookbook = (props: CookbookProps) => {
             {step == Components.UserInfo
                 && (
                 <UserInfo/>        
+            )}
+            {step == Components.SignIn
+                && (
+                <SignIn/>        
             )}
           </Box>
           <Box component="footer" sx={{ p: 2, bgcolor: '#eaeff1' }}>

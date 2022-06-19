@@ -19,7 +19,7 @@ export const Pages = () => {
         <Route path="/cookbook"         element={<Cookbook centralComponent={Components.Welcome} />}/>
         <Route path="/app"              element={<App />}/>
         
-        <Route path="/user/:id"         element={<App />}/>
+        <Route path="/user/:id"         element={<Cookbook centralComponent={Components.UserInfo} />}/>
         <Route path="/login"            element={<App />}/>
         <Route path="/signup"           element={<App />}/>
       </Routes>

@@ -21,32 +21,7 @@ import { Components } from './Cookbook';
 
 import {Link} from "react-router-dom";
 
-const categories = [
-  {
-    id: 'My recipes',
-    children: [
-      {
-        id: 'Authentication',
-        icon: <PeopleIcon />,
-        linkTo: "/",
-        active: true,
-      },
-      { id: 'Database', icon: <DnsRoundedIcon />, linkTo: "/" },
-      {
-        id: 'Add recipe',
-        icon: <PermMediaOutlinedIcon />, linkTo: "/recipe/create"
-      },
-    ],
-  },
-  {
-    id: 'Account',
-    children: [
-      { id: 'My recipes', icon: <SettingsIcon />, linkTo: "/" },
-      { id: 'My account', icon: <TimerIcon />, linkTo: "/" },
-      { id: 'Log out', icon: <PhonelinkSetupIcon />, linkTo: "/" },
-    ],
-  },
-];
+
 
 const item = {
   py: '2px',
@@ -81,6 +56,30 @@ export const Navigator = (props: NavigatorProps) => {
 
   const variantValue: "permanent" | "temporary" = props.permanent === true ? "permanent" : "temporary";
 
+  const categories = [
+    {
+      id: 'My recipes',
+      children: [
+        {
+          id: 'Add recipe',
+          icon: <PermMediaOutlinedIcon />, linkTo: "/recipe/create",
+          comp: Components.AddRecipe
+        },
+      ],
+    },
+    {
+      id: 'Account',
+      children: [
+        { id: 'My account', icon: <TimerIcon />, linkTo: "/user/:id",
+        comp: Components.UserInfo },
+        { id: 'Log in', icon: <PhonelinkSetupIcon />, linkTo: "/",
+        comp: Components.SignIn },
+        { id: 'Log out', icon: <PhonelinkSetupIcon />, linkTo: "/",
+        comp: Components.Welcome },
+      ],
+    },
+  ];
+
   return (
     <Drawer variant={variantValue} {...other}>
       <List disablePadding>
@@ -102,11 +101,11 @@ export const Navigator = (props: NavigatorProps) => {
             <ListItem sx={{ py: 2, px: 3 }}>
               <ListItemText sx={{ color: '#fff' }}>{id}</ListItemText>
             </ListItem>
-            {children.map(({ id: childId, icon: icon, active: active,
-              linkTo: linkTo }) => (
+            {children.map(({ id: childId, icon: icon,
+              linkTo: linkTo, comp: component }) => (
               <ListItem disablePadding key={childId}
-                onClick={() => {props.changeView(Components.Welcome)}}>
-                <ListItemButton selected={active} sx={item} component={Link} to={linkTo} >
+                onClick={() => {props.changeView(component)}}>
+                <ListItemButton sx={item} component={Link} to={linkTo} >
                   <ListItemIcon>{icon}</ListItemIcon>
                   <ListItemText>{childId}</ListItemText>
                 </ListItemButton>

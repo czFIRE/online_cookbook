@@ -400,7 +400,8 @@ export const AddRecipe = () => {
       </Grid>
 
       <Grid item sx={{ mt: 2 }}>
-        <Button variant="contained" disabled={errorCount > 0 || fileField.length == 0} onClick={event => handleSubmit(event)}>
+        <Button variant="contained" disabled={errorCount > 0 || fileField.length == 0}
+          onClick={event => handleSubmit(event)}>
           Save
         </Button>
       </Grid>
