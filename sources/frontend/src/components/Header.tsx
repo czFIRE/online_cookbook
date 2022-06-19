@@ -74,17 +74,17 @@ export const Header = (props: HeaderProps) => {
             <Grid item>
               <Tooltip title="Search">
                 <IconButton onClick={props.changeView}>
-                  <SearchIcon color="inherit" sx={{ display: 'block' }} />
+                  <SearchIcon color="inherit" sx={{ display: 'block', color: 'white' }} />
                 </IconButton>
               </Tooltip>
             </Grid>
             <Grid item xs>
               <TextField
                 fullWidth
-                placeholder="Search by name of recipe of category"
+                placeholder="Search by name of recipe or category"
                 InputProps={{
                   disableUnderline: true,
-                  sx: { fontSize: 'default' },
+                  sx: { fontSize: 'default', color: 'white' },
                 }}
                 variant="standard"
               />
