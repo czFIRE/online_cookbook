@@ -185,6 +185,8 @@ export const AddRecipe = () => {
 
       <Grid item sx={{ mt: 1 }}>
         <Grid container spacing={2}>
+
+
           <Grid item xs={4}>
             <Typography color="text.primary">
               Steps:
@@ -244,13 +246,13 @@ export const AddRecipe = () => {
           </Grid>
 
           <Grid item xs={12}>
-            <Grid item>
+            <Grid container direction="row">
               {
                 fileField.length > 0 &&
 
                 <>
                   {fileField.map((inputField, index) => (
-                    <>
+                    <Grid item>
                       <Typography color="text.primary">
                         {inputField.file.name}
                       </Typography>
@@ -275,7 +277,7 @@ export const AddRecipe = () => {
                           <DeleteIcon />
                         </IconButton>
                       </Grid>
-                    </>
+                    </Grid>
                   ))}
                 </>
               }
