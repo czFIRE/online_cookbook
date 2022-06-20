@@ -31,6 +31,7 @@ api.delete('/recipe/:id', recipe.destroy);
 // Categories
 api.get('/category', category.categories)
 api.get('/category/:name', category.listCategory)
+api.get('/category/:id/name', category.getCategoryName)
 
 // User
 api.get('/user/?:id', user.profile);

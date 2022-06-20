@@ -45,3 +45,26 @@ export const categories = async (req: Request, res: Response) => {
         data: categories,
     })
 }
+
+export const getCategoryName = async (req: Request, res: Response) => {
+    const category = await prisma.category.findUnique({
+        select: {
+            name: true,
+        },
+        where: {
+            id: req.params.id
+        }
+    })
+
+    if (!category?.name) {
+        return res.status(404).send({
+            status: "Not found",
+            message: "There are no categories yet"
+        })
+    }
+    
+    return res.send({
+        status: "success",
+        data: category.name,
+    })
+}
