@@ -6,6 +6,7 @@ const recipeSchema = object({
     name: string().required(),
     timeComplexity: number().required(),
     portions: number().required(),
+    description: string().required(),
     ingredients: string().required(),
     steps: string().required(),
     categoryId: string().required().uuid(),
@@ -19,35 +20,6 @@ export const list = async (req: Request, res: Response) => {
     return res.send({
         status: "success",
         data: recipes
-    })
-}
-
-export const listCategory = async (req: Request, res: Response) => {
-    const category = await getCategory(req.params.category as string);
-    if (!category?.id) {
-        return res.status(404).send({
-            status: "Missing",
-        })
-    }
-
-
-    const recipes = await prisma.recipe.findMany({
-        where: {
-            categoryId: category?.id
-        }
-    });
-
-    return res.send({
-        status: "success",
-        data: recipes
-    })
-}
-
-const getCategory = async (categoryName: string) => {
-    return await prisma.category.findFirst({
-        where: {
-            name: categoryName
-        }
     })
 }
 
@@ -115,11 +87,11 @@ export const destroy = async (req: Request, res: Response) => {
         where: {
           id: req.params.id
         }
-      });
+    });
     
     return res.send({
         status: "sucess",
         data: request,
-        message: "Request removed"
+        message: "Recipe removed"
     })
 }

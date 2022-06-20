@@ -13,13 +13,24 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 
-export const Recipe = () => {
+export type RecipeProps = {
+	name: string,
+	portions: number,
+	timeComplexity: number,
+	description: string,
+	category: string,
+	ingredients: string[],
+	steps: string[],
+}
+
+export const Recipe = (props: RecipeProps) => {
+	console.log(props.ingredients);
   return (
 		<Paper sx={{ margin: 'auto', overflow: 'hidden' }}>
 			<Grid container direction="column" spacing={1}>
 				<Grid item>
 					<Typography color="text.primary" variant="h2" sx={{mt: 1}}>
-						Pizza
+						{props.name}
 					</Typography>
 				</Grid>
 				<Grid item>
@@ -36,32 +47,55 @@ export const Recipe = () => {
 								src="/pizza.jpg"/>
 						</Grid>
 							<Grid item sx={{ml: 2}}>
-								<Grid container justifyContent="space-between">
-									<Typography color="text.secondary">
-										2 porce
-									</Typography>
-									<Divider orientation="vertical" />
-									<Typography color="text.secondary">
-										3 hodiny
-									</Typography>
-									<Typography color="text.secondary">
-										Italiano
-									</Typography>
+								<Grid container spacing={3}>
+									<Grid item>
+										<Typography color="text.secondary">
+											{`Portions: ${props.portions}`}
+										</Typography>
+									</Grid>
+									<Grid item>
+										<Typography color="text.secondary">
+											{`Time: ${props.timeComplexity} min`}
+										</Typography>
+									</Grid>
+									<Grid item>
+										<Typography color="text.secondary">
+											{`Category: `}
+										</Typography>
+									</Grid>
 								</Grid>
 								<Grid item>
 									<Typography color="text.secondary">
-										popisek goes here
+										{props.description}
 									</Typography>
 								</Grid>
 								<Grid item>
 									<Typography color="text.primary">
 										Ingredients:
 									</Typography>
+									<Grid>
+										{props.ingredients.map((i) => {
+											return (
+												<Typography color="text.primary">
+													{i}
+												</Typography>
+											)
+										})}
+									</Grid>
 								</Grid>
 								<Grid item>
 									<Typography color="text.primary">
 										Steps:
 									</Typography>
+									<Grid>
+										{props.steps.map((s) => {
+											return (
+												<Typography color="text.primary">
+													{s}
+												</Typography>
+											)
+										})}
+									</Grid>
 								</Grid>
 							</Grid>
 					</Grid>

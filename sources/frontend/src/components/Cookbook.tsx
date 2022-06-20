@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -16,6 +17,9 @@ import {AddRecipe} from './AddRecipe';
 import { Register } from './Register';
 import { SignIn } from './SignIn';
 import {UserInfo} from './UserInfo';
+import { useNavigate } from 'react-router-dom';
+import { createContext } from 'vm';
+import { RecipeProps } from './Recipe';
 
 const Copyright = () => {
   return (
@@ -179,13 +183,46 @@ theme = {
 
 const drawerWidth = 256;
 
-export const Cookbook = () => {
+export enum Components {
+  Welcome,
+  AddRecipe,
+  ShowRecipe,
+  SearchResult,
+  UserInfo,
+  SignIn
+}
+
+export type CookbookProps = {
+  centralComponent: Components
+}
+
+
+export const Cookbook = (props: CookbookProps) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  const [step, setStep] = useState<Components>(props.centralComponent);
+  const [recipes, setRecipes] = useState();
+  const [recipe, setRecipe] = useState<RecipeProps>(
+    {
+      name: "",
+      portions: 0,
+      timeComplexity: 0,
+      description: "",
+      category: "",
+      ingredients: [],
+      steps: []
+  });
+  const navigation = useNavigate();
+  const newStep = (data, comp) => {
+    setRecipes(data)
+    setStep(comp);
+    console.log(data);
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -198,20 +235,57 @@ export const Cookbook = () => {
           {isSmUp ? null : (
             <Navigator
               PaperProps={{ style: { width: drawerWidth } }}
-              variant="temporary"
+              permanent={false}
               open={mobileOpen}
               onClose={handleDrawerToggle}
+              changeView={(comp: Components) => setStep(comp)}
+              changeViewWithData={(data, comp) => newStep(data, comp)}
             />
           )}
           <Navigator
             PaperProps={{ style: { width: drawerWidth } }}
+            permanent={true}
             sx={{ display: { sm: 'block', xs: 'none' } }}
+            changeView={(comp: Components) => setStep(comp)}
+            changeViewWithData={(data, comp) => newStep(data, comp)}
           />
         </Box>
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-          <Header onDrawerToggle={handleDrawerToggle} />
+          <Header onDrawerToggle={handleDrawerToggle} changeView={() => {
+            navigation('/search');
+            setStep(Components.SearchResult);
+          }} />
           <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: '#eaeff1' }}>
-            <Recipe />
+            {step == Components.Welcome
+                && (
+                <Welcome changeView={() => setStep(Components.ShowRecipe)}
+                recipe={recipe}/>        
+            )}
+            {step == Components.AddRecipe
+                && (
+                <AddRecipe/>        
+            )}
+            {step == Components.ShowRecipe
+                && (
+                <Recipe {...recipe}/>        
+            )}
+            {step == Components.SearchResult
+                && (
+                <SearchResult
+                  changeView={(r) => {setStep(Components.ShowRecipe);
+                    setRecipe(r);
+                  }}
+                  recipe={recipes}
+                  />        
+            )}
+            {step == Components.UserInfo
+                && (
+                <UserInfo changeView={() => setStep(Components.ShowRecipe)}/>        
+            )}
+            {step == Components.SignIn
+                && (
+                <SignIn/>        
+            )}
           </Box>
           <Box component="footer" sx={{ p: 2, bgcolor: '#eaeff1' }}>
             <Copyright />

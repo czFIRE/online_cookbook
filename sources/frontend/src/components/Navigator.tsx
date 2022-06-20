@@ -17,38 +17,12 @@ import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputCompone
 import TimerIcon from '@mui/icons-material/Timer';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PhonelinkSetupIcon from '@mui/icons-material/PhonelinkSetup';
+import { Components } from './Cookbook';
+import axios from 'axios';
 
 import {Link} from "react-router-dom";
 
-const categories = [
-  {
-    id: 'My recipes',
-    children: [
-      {
-        id: 'Authentication',
-        icon: <PeopleIcon />,
-        linkTo: "/",
-        active: true,
-      },
-      { id: 'Database', icon: <DnsRoundedIcon />, linkTo: "/" },
-      { id: 'Storage', icon: <PermMediaOutlinedIcon />, linkTo: "/" },
-      { id: 'Hosting', icon: <PublicIcon />, linkTo: "/" },
-      { id: 'Functions', icon: <SettingsEthernetIcon />, linkTo: "/" },
-      {
-        id: 'Add recipe',
-        icon: <SettingsInputComponentIcon />, linkTo: "/recipe/create"
-      },
-    ],
-  },
-  {
-    id: 'Account',
-    children: [
-      { id: 'My recipes', icon: <SettingsIcon />, linkTo: "/" },
-      { id: 'My account', icon: <TimerIcon />, linkTo: "/" },
-      { id: 'Log out', icon: <PhonelinkSetupIcon />, linkTo: "/" },
-    ],
-  },
-];
+
 
 const item = {
   py: '2px',
@@ -65,29 +39,103 @@ const itemCategory = {
   px: 3,
 };
 
-export const Navigator = (props: DrawerProps) => {
+export type NavigatorProps = {
+  PaperProps: { style: {
+    width: number;
+  }};
+  permanent: boolean;
+  open?: boolean;
+  sx?: {display: {
+    sm: string; xs: string;
+  }};
+  onClose?: () => void;
+  changeView: (comp: Components) => void;
+  changeViewWithData: (data: any, comp: Components) => void;
+}
+
+export const Navigator = (props: NavigatorProps) => {
   const { ...other } = props;
 
+  const variantValue: "permanent" | "temporary" = props.permanent === true ? "permanent" : "temporary";
+
+  const categories = [
+    {
+      id: 'My recipes',
+      children: [
+        {
+          id: 'Add recipe',
+          icon: <PermMediaOutlinedIcon />, linkTo: "/recipe/create",
+          comp: Components.AddRecipe
+        },
+      ],
+    },
+    {
+      id: 'Account',
+      children: [
+        { id: 'My account', icon: <TimerIcon />, linkTo: "/user/:id",
+        comp: Components.UserInfo },
+        { id: 'Log in', icon: <PhonelinkSetupIcon />, linkTo: "/",
+        comp: Components.SignIn },
+        { id: 'Log out', icon: <PhonelinkSetupIcon />, linkTo: "/",
+        comp: Components.Welcome },
+      ],
+    },
+  ];
+
   return (
-    <Drawer variant="permanent" {...other}>
+    <Drawer variant={variantValue} {...other}>
       <List disablePadding>
         <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: '#fff' }}>
           Cookbook
         </ListItem>
-        <ListItem sx={{ ...item, ...itemCategory }} component={Link} to="/">
+        <ListItem
+          sx={{ ...item, ...itemCategory }}
+          component={Link}
+          to="/"
+          onClick={() => props.changeView(Components.Welcome)}>
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
           <ListItemText>Home page</ListItemText>
         </ListItem>
+        
+        <Box key={'All'} sx={{ bgcolor: '#101F33' }}>
+          <ListItem disablePadding key={'All recipes'}
+            onClick={async () => {
+              let res = await axios.get("//localhost:3003/recipe");
+
+              if (res.statusText != "OK") {
+                console.log("Error here:", res);
+                return;
+              }
+/*
+              let resCategory = await axios.get("//localhost:3003/category/" + res?.data?.data?.categoryId);
+
+              if (resCategory.statusText != "OK") {
+                console.log("Error here:", resCategory);
+                return;
+              }*/
+
+
+              props.changeViewWithData(res.data.data, Components.SearchResult);
+              }}>
+            <ListItemButton sx={item} component={Link} to='/search' >
+              <ListItemIcon><PermMediaOutlinedIcon /></ListItemIcon>
+              <ListItemText>All recipes</ListItemText>
+            </ListItemButton>
+          </ListItem>
+        </Box>
+            
         {categories.map(({ id, children }) => (
           <Box key={id} sx={{ bgcolor: '#101F33' }}>
             <ListItem sx={{ py: 2, px: 3 }}>
               <ListItemText sx={{ color: '#fff' }}>{id}</ListItemText>
             </ListItem>
-            {children.map(({ id: childId, icon: icon, active: active, linkTo: linkTo }) => (
-              <ListItem disablePadding key={childId} >
-                <ListItemButton selected={active} sx={item} component={Link} to={linkTo} >
+            {children.map(({ id: childId, icon: icon,
+              linkTo: linkTo, comp: component }) => (
+              <ListItem disablePadding key={childId}
+                onClick={() => {props.changeView(component)}}>
+                <ListItemButton sx={item} component={Link} to={linkTo} >
                   <ListItemIcon>{icon}</ListItemIcon>
                   <ListItemText>{childId}</ListItemText>
                 </ListItemButton>

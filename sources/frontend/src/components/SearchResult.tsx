@@ -13,8 +13,10 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import {MiniRecipe} from './MiniRecipe';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-export type RecipesProps = {
+export type SearchProps = {
 	recipe: {
 			name: string;
 			time: string;
@@ -22,18 +24,26 @@ export type RecipesProps = {
 	}[];
 }
 
-export const SearchResult = () => {
-	const mockResult = {
-		"name": "Pizza",
-		"time": "60 minut",
-		"image": "/pizza.jpg"
-	}
-	const mockResults = [
-    mockResult, mockResult, mockResult, mockResult, mockResult
-  ]
+export type SearchRecipeProps = {
+	changeView: any
+	recipe: any;
+}
+
+export const SearchResult = (props: SearchRecipeProps) => {
+  const navigation = useNavigate();
+  
   return (
-		<Grid container>
-			{mockResults.map((p) => <MiniRecipe />)}
+		<Grid container spacing={2}>
+			{props.recipe.map((p) => {
+			return (
+				<Grid item>
+					<div onClick={() => {
+						navigation('/recipe/' + p.id);
+						props.changeView(p);
+					}}>
+						<MiniRecipe name={p.name} timeComplexity={p.timeComplexity} />
+					</div>
+				</Grid>)})}
 		</Grid>
   );
 }
