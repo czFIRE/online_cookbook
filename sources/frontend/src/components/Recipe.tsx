@@ -60,7 +60,7 @@ export const Recipe = (props: RecipeProps) => {
 									</Grid>
 									<Grid item>
 										<Typography color="text.secondary">
-											{`Category: `}
+											{`Category: ${props.category}`}
 										</Typography>
 									</Grid>
 								</Grid>
