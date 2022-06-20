@@ -24,35 +24,6 @@ const Input = styled('input')({
 });
 
 export const AddRecipe = () => {
-
-  // const toDataURL = (url, callback) => {
-  //   var xhr = new XMLHttpRequest();
-  //   xhr.onload = function() {
-  //     var reader = new FileReader();
-  //     reader.onloadend = function() {
-  //       callback(reader.result);
-  //     }
-  //     reader.readAsDataURL(xhr.response);
-  //   };
-  //   xhr.open('GET', url);
-  //   xhr.responseType = 'blob';
-  //   xhr.send();
-  // }
-
-  // toDataURL('blob:http://localhost:3000/3fafeaba-f348-42ae-b6aa-6790aeec3d57', function(dataUrl) {
-  //   console.log('RESULT:', dataUrl)
-  // })
-
-
-
-
-
-
-
-
-
-
-
   const navigate = useNavigate();
 
   const [stepField, setStepField] = useState([
@@ -104,15 +75,23 @@ export const AddRecipe = () => {
       name: basicField[0].value,
       timeComplexity: +basicField[1].value,
       portions: +basicField[2].value,
-      ingredients: ingredientsField.map((x) => { x.value }).join('\n'),
+      ingredients: ingredientsField.map(x => x.value).join("\n"),
+      //ingredients: ingredientsField[0].value,
       description: basicField[3].value,
-      steps: stepField.map((x) => { x.value }).join('\n'),
+      steps: stepField.map(x => x.value).join("\n"),
+      //steps: stepField[0].value,
       categoryId: categoryOptions[0].id,
       userId: "f8fb2811-b24a-495e-aa5a-840ba5cb1a34",
     };
     const url = "//localhost:3003/recipe";
     let res = await axios.post(url, body).then((x) => {
-      console.log(x)
+      console.log(x);
+
+      if (x.status != 200) {
+        return;
+      }
+
+      navigate('/recipe/' + x.data.data);
     });
 
     // send it to the DB
@@ -122,7 +101,7 @@ export const AddRecipe = () => {
     // Show user "recipe added"
 
     // redirect
-    // navigate('/');
+
   };
 
 
@@ -178,7 +157,7 @@ export const AddRecipe = () => {
       reader.readAsDataURL(event.target.files[i]);
 
       // This is horrible, but I don't know how else to do it
-      while(helper) {await new Promise(resolve => setTimeout(resolve, 1000));}
+      while (helper) { await new Promise(resolve => setTimeout(resolve, 1000)); }
     }
 
     console.log("temp:", tmp);
