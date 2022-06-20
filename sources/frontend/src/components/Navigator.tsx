@@ -18,6 +18,7 @@ import TimerIcon from '@mui/icons-material/Timer';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PhonelinkSetupIcon from '@mui/icons-material/PhonelinkSetup';
 import { Components } from './Cookbook';
+import axios from 'axios';
 
 import {Link} from "react-router-dom";
 
@@ -49,6 +50,7 @@ export type NavigatorProps = {
   }};
   onClose?: () => void;
   changeView: (comp: Components) => void;
+  changeViewWithData: (data: any, comp: Components) => void;
 }
 
 export const Navigator = (props: NavigatorProps) => {
@@ -96,6 +98,25 @@ export const Navigator = (props: NavigatorProps) => {
           </ListItemIcon>
           <ListItemText>Home page</ListItemText>
         </ListItem>
+        
+        <Box key={'All'} sx={{ bgcolor: '#101F33' }}>
+          <ListItem disablePadding key={'All recipes'}
+            onClick={async () => {
+              let res = await axios.get("//localhost:3003/recipe");
+
+              if (res.statusText != "OK") {
+                console.log("Error here:", res);
+                return;
+              }
+              props.changeViewWithData(res.data.data, Components.SearchResult);
+              }}>
+            <ListItemButton sx={item} component={Link} to='/search' >
+              <ListItemIcon><PermMediaOutlinedIcon /></ListItemIcon>
+              <ListItemText>All recipes</ListItemText>
+            </ListItemButton>
+          </ListItem>
+        </Box>
+            
         {categories.map(({ id, children }) => (
           <Box key={id} sx={{ bgcolor: '#101F33' }}>
             <ListItem sx={{ py: 2, px: 3 }}>

@@ -205,7 +205,13 @@ export const Cookbook = (props: CookbookProps) => {
   };
 
   const [step, setStep] = useState<Components>(props.centralComponent);
+  const [recipes, setRecipes] = useState();
   const navigation = useNavigate();
+  const newStep = (data, comp) => {
+    setRecipes(data)
+    setStep(comp);
+    console.log(data);
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -222,6 +228,7 @@ export const Cookbook = (props: CookbookProps) => {
               open={mobileOpen}
               onClose={handleDrawerToggle}
               changeView={(comp: Components) => setStep(comp)}
+              changeViewWithData={(data, comp) => newStep(data, comp)}
             />
           )}
           <Navigator
@@ -229,6 +236,7 @@ export const Cookbook = (props: CookbookProps) => {
             permanent={true}
             sx={{ display: { sm: 'block', xs: 'none' } }}
             changeView={(comp: Components) => setStep(comp)}
+            changeViewWithData={(data, comp) => newStep(data, comp)}
           />
         </Box>
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
@@ -251,7 +259,10 @@ export const Cookbook = (props: CookbookProps) => {
             )}
             {step == Components.SearchResult
                 && (
-                <SearchResult changeView={() => setStep(Components.ShowRecipe)}/>        
+                <SearchResult
+                  changeView={() => setStep(Components.ShowRecipe)}
+                  recipe={recipes}
+                  />        
             )}
             {step == Components.UserInfo
                 && (
