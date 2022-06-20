@@ -63,7 +63,7 @@ export const Header = (props: HeaderProps) => {
           </Grid>
         </Toolbar>
       </AppBar>
-      <AppBar component="div" position="static" elevation={0} sx={{ zIndex: 0 }}>
+      <AppBar component="div" position="static" elevation={0} sx={{ zIndex: 0, display: "none" }}>
         <Toolbar>
           <Grid container spacing={2} alignItems="center" sx={{ zIndex: 0 }}>
             <Grid item>
