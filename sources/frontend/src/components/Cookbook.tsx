@@ -206,7 +206,7 @@ export const Cookbook = (props: CookbookProps) => {
   };
 
   const [step, setStep] = useState<Components>(props.centralComponent);
-  const [recipes, setRecipes] = useState();
+  const [recipes, setRecipes] = useState<RecipeProps[]>([]);
   const [recipe, setRecipe] = useState<RecipeProps>(
     {
       name: "",
