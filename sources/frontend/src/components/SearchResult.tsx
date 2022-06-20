@@ -25,7 +25,7 @@ export type SearchProps = {
 }
 
 export type SearchRecipeProps = {
-	changeView: () => void;
+	changeView: any
 	recipe: any;
 }
 
@@ -39,7 +39,7 @@ export const SearchResult = (props: SearchRecipeProps) => {
 				<Grid item>
 					<div onClick={() => {
 						navigation('/recipe/' + p.id);
-						props.changeView();
+						props.changeView(p);
 					}}>
 						<MiniRecipe name={p.name} timeComplexity={p.timeComplexity} />
 					</div>

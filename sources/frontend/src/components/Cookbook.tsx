@@ -19,6 +19,7 @@ import { SignIn } from './SignIn';
 import {UserInfo} from './UserInfo';
 import { useNavigate } from 'react-router-dom';
 import { createContext } from 'vm';
+import { RecipeProps } from './Recipe';
 
 const Copyright = () => {
   return (
@@ -206,6 +207,16 @@ export const Cookbook = (props: CookbookProps) => {
 
   const [step, setStep] = useState<Components>(props.centralComponent);
   const [recipes, setRecipes] = useState();
+  const [recipe, setRecipe] = useState<RecipeProps>(
+    {
+      name: "",
+      portions: 0,
+      timeComplexity: 0,
+      description: "",
+      category: "",
+      ingredients: [],
+      steps: []
+  });
   const navigation = useNavigate();
   const newStep = (data, comp) => {
     setRecipes(data)
@@ -247,7 +258,8 @@ export const Cookbook = (props: CookbookProps) => {
           <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: '#eaeff1' }}>
             {step == Components.Welcome
                 && (
-                <Welcome changeView={() => setStep(Components.ShowRecipe)}/>        
+                <Welcome changeView={() => setStep(Components.ShowRecipe)}
+                recipe={recipe}/>        
             )}
             {step == Components.AddRecipe
                 && (
@@ -255,12 +267,14 @@ export const Cookbook = (props: CookbookProps) => {
             )}
             {step == Components.ShowRecipe
                 && (
-                <Recipe/>        
+                <Recipe {...recipe}/>        
             )}
             {step == Components.SearchResult
                 && (
                 <SearchResult
-                  changeView={() => setStep(Components.ShowRecipe)}
+                  changeView={(r) => {setStep(Components.ShowRecipe);
+                    setRecipe(r);
+                  }}
                   recipe={recipes}
                   />        
             )}

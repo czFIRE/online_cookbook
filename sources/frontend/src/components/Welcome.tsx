@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 
 export type WelcomeProps = {
 	changeView: () => void;
+	recipe: any;
 }
 
 export const Welcome = (props: WelcomeProps) => {
@@ -46,7 +47,7 @@ export const Welcome = (props: WelcomeProps) => {
 							navigation(p.url);
 							props.changeView();
 						}}>
-							<MiniRecipe />
+							<MiniRecipe name={p.name} timeComplexity={p.time}/>
 						</div>
 					</Grid>
 				)})}
