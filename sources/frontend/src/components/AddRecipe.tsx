@@ -104,23 +104,16 @@ export const AddRecipe = () => {
       name: basicField[0].value,
       timeComplexity: +basicField[1].value,
       portions: +basicField[2].value,
-<<<<<<< HEAD
       ingredients: ingredientsField.map(x => x.value).join("\n"),
       //ingredients: ingredientsField[0].value,
       description: basicField[3].value,
       steps: stepField.map(x => x.value).join("\n"),
       //steps: stepField[0].value,
-=======
-      ingredients: ingredientsField.map((x) => { x.value }).join('\n'),
-      description: basicField[3].value,
-      steps: stepField.map((x) => { x.value }).join('\n'),
->>>>>>> e9d8e601b81a3c509638feb2066e80a5efbf119b
       categoryId: categoryOptions[0].id,
       userId: "f8fb2811-b24a-495e-aa5a-840ba5cb1a34",
     };
     const url = "//localhost:3003/recipe";
     let res = await axios.post(url, body).then((x) => {
-<<<<<<< HEAD
       console.log(x);
 
       if (x.status != 200) {
@@ -128,9 +121,6 @@ export const AddRecipe = () => {
       }
 
       navigate('/recipe/' + x.data.data);
-=======
-      console.log(x)
->>>>>>> e9d8e601b81a3c509638feb2066e80a5efbf119b
     });
 
     // send it to the DB
@@ -196,11 +186,7 @@ export const AddRecipe = () => {
       reader.readAsDataURL(event.target.files[i]);
 
       // This is horrible, but I don't know how else to do it
-<<<<<<< HEAD
       while (helper) { await new Promise(resolve => setTimeout(resolve, 1000)); }
-=======
-      while(helper) {await new Promise(resolve => setTimeout(resolve, 1000));}
->>>>>>> e9d8e601b81a3c509638feb2066e80a5efbf119b
     }
 
     console.log("temp:", tmp);
