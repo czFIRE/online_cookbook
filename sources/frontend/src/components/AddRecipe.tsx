@@ -16,6 +16,7 @@ import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardMedia from '@mui/material/CardMedia';
 import axios from 'axios';
+import { read } from 'fs';
 
 
 const Input = styled('input')({
@@ -23,6 +24,35 @@ const Input = styled('input')({
 });
 
 export const AddRecipe = () => {
+
+  // const toDataURL = (url, callback) => {
+  //   var xhr = new XMLHttpRequest();
+  //   xhr.onload = function() {
+  //     var reader = new FileReader();
+  //     reader.onloadend = function() {
+  //       callback(reader.result);
+  //     }
+  //     reader.readAsDataURL(xhr.response);
+  //   };
+  //   xhr.open('GET', url);
+  //   xhr.responseType = 'blob';
+  //   xhr.send();
+  // }
+
+  // toDataURL('blob:http://localhost:3000/3fafeaba-f348-42ae-b6aa-6790aeec3d57', function(dataUrl) {
+  //   console.log('RESULT:', dataUrl)
+  // })
+
+
+
+
+
+
+
+
+
+
+
   const navigate = useNavigate();
 
   const [stepField, setStepField] = useState([
@@ -74,14 +104,14 @@ export const AddRecipe = () => {
       name: basicField[0].value,
       timeComplexity: +basicField[1].value,
       portions: +basicField[2].value,
-      ingredients: "abc",
+      ingredients: ingredientsField.map((x) => { x.value }).join('\n'),
       description: basicField[3].value,
-      steps: stepField[0].value,
+      steps: stepField.map((x) => { x.value }).join('\n'),
       categoryId: categoryOptions[0].id,
       userId: "f8fb2811-b24a-495e-aa5a-840ba5cb1a34",
     };
     const url = "//localhost:3003/recipe";
-    let res = await axios.post(url, body).then( (x) => {
+    let res = await axios.post(url, body).then((x) => {
       console.log(x)
     });
 
@@ -104,9 +134,9 @@ export const AddRecipe = () => {
     return cond;
   }
 
-  const [fileField, setFileField] = useState<{ id: string, file: File, url: string }[]>([]);
+  const [fileField, setFileField] = useState<{ id: string, file: ArrayBuffer, url: string }[]>([]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (fileField.length == 0) {
       setFileField([]);
     }
@@ -127,12 +157,28 @@ export const AddRecipe = () => {
       }
     }
 
-    let tmp: { id: string, file: File, url: string }[] = [];
+    let tmp: { id: string, file: ArrayBuffer, url: string }[] = [];
 
     for (let i = 0; i < event.target.files.length; i++) {
+      let helper = true;
+
       let url = URL.createObjectURL(event.target.files[i]);
 
-      tmp = [...tmp, { id: uuidv4(), file: event.target.files[i], url: url }];
+      const reader = new FileReader();
+
+      reader.addEventListener("load", function () {
+        // convert image file to base64 string
+        console.log("DATA_URL", reader.result);
+
+        tmp = [...tmp, { id: uuidv4(), file: reader.result! as ArrayBuffer, url: url }];
+
+        helper = false;
+      }, false);
+
+      reader.readAsDataURL(event.target.files[i]);
+
+      // This is horrible, but I don't know how else to do it
+      while(helper) {await new Promise(resolve => setTimeout(resolve, 1000));}
     }
 
     console.log("temp:", tmp);
@@ -140,7 +186,7 @@ export const AddRecipe = () => {
     setFileField([...fileField, ...tmp]);
   }
 
-  const [categoryOptions, setCategoryOptions] = useState<{name: string, id: string}[]>([]);
+  const [categoryOptions, setCategoryOptions] = useState<{ name: string, id: string }[]>([]);
 
 
   const elem = (
@@ -275,7 +321,7 @@ export const AddRecipe = () => {
                   {fileField.map((inputField, index) => (
                     <Grid item>
                       <Typography color="text.primary">
-                        {inputField.file.name}
+                        Image {index + 1}
                       </Typography>
                       <Grid container alignItems="center">
                         <Card className={'a'}>
@@ -345,7 +391,7 @@ export const AddRecipe = () => {
                   label={index}
                   value={inputField.value}
                   onChange={event => handleInputChange(inputField.id, event, tagField, setTagField)}
-                
+
                   select
                   SelectProps={{
                     native: true,
@@ -365,11 +411,11 @@ export const AddRecipe = () => {
                     }
                   }}
                 >
-                {categoryOptions.map((option) => (
-                  <option key={option.id} value={option.name}>
-                    {option.name}
-                  </option>
-                ))}
+                  {categoryOptions.map((option) => (
+                    <option key={option.id} value={option.name}>
+                      {option.name}
+                    </option>
+                  ))}
                 </TextField>
                 <IconButton disabled={tagField.length === 1} onClick={() => {
                   const values = [...tagField];
@@ -398,7 +444,7 @@ export const AddRecipe = () => {
   console.log("steps:", stepField);
   console.log("basic:", basicField);
   console.log(errorCount);
-  console.log(fileField);
+  console.log("FILE FIELD:", fileField);
   console.log(tagField);
 
   return elem;
