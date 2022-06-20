@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { object, string, ValidationError, number, array } from 'yup';
+import { object, string, ValidationError, number } from 'yup';
 import prisma from '../client';
+import { statusCodes } from './CONSTANTS';
 
 const recipeSchema = object({
     name: string().required(),
@@ -17,7 +18,7 @@ export const list = async (req: Request, res: Response) => {
     const recipes = await prisma.recipe.findMany({
     });
 
-    return res.send({
+    return res.status(statusCodes.Success).send({
         status: "success",
         data: recipes
     })
@@ -31,26 +32,14 @@ export const show = async (req: Request, res: Response) => {
     });
 
     if (!recipe) {
-        return res.status(404).send({
+        return res.status(statusCodes.NotFound).send({
             status: 'missing'
         })
     }
 
-    return res.send({
+    return res.status(statusCodes.Success).send({
         status: 'success',
         data: recipe
-    })
-}
-
-export const update = async (req: Request, res: Response) => {
-    return res.send({
-        status: 'success',
-    })
-}
-
-export const setRating = async (req: Request, res: Response) => {
-    return res.send({
-        status: 'success'
     })
 }
 
@@ -61,14 +50,14 @@ export const create = async (req: Request, res: Response) => {
             data
         });
 
-        return res.send({
+        return res.status(statusCodes.Created).send({
             status: 'success',
             data: recipe.id,
             message: 'Stored to system'
         })
     } catch (e) {
         if (e instanceof ValidationError) {
-            return res.status(400).send({
+            return res.status(statusCodes.BadRequest).send({
                 status: "error",
                 data: e.errors,
                 message: e.message
@@ -76,22 +65,21 @@ export const create = async (req: Request, res: Response) => {
         }
     }
 
-    return res.status(500).send({
+    return res.status(statusCodes.InternalError).send({
         status: "error",
         message: "Something went wrong",
     })
 }
 
 export const destroy = async (req: Request, res: Response) => {
-    const request = await prisma.recipe.delete({
+    await prisma.recipe.delete({
         where: {
           id: req.params.id
         }
     });
     
-    return res.send({
+    return res.status(statusCodes.Success).send({
         status: "sucess",
-        data: request,
         message: "Recipe removed"
     })
 }

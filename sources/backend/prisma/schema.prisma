@@ -15,12 +15,8 @@ model Recipe {
   ingredients    String[]
   steps          String[]
   categoryId     String
-  userId         String
-  description    String
   category       Category        @relation(fields: [categoryId], references: [id])
-  user           User            @relation(fields: [userId], references: [id])
   Image          Image[]
-  StarRating     StarRating[]
   TagsOnRecipes  TagsOnRecipes[]
 }
 
@@ -34,26 +30,6 @@ model Image {
   url      String @id
   recipeId String
   recipe   Recipe @relation(fields: [recipeId], references: [id])
-}
-
-model User {
-  id         String       @id @default(uuid())
-  name       String
-  username   String
-  password   String
-  isAdmin    Boolean      @default(false)
-  Recipe     Recipe[]
-  StarRating StarRating[]
-}
-
-model StarRating {
-  stars    Int
-  userId   String
-  recipeId String
-  recipe   Recipe @relation(fields: [recipeId], references: [id])
-  user     User   @relation(fields: [userId], references: [id])
-
-  @@id([userId, recipeId])
 }
 
 model Tag {
