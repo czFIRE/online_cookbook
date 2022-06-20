@@ -15,12 +15,11 @@ import Divider from '@mui/material/Divider';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 export type MiniRecipeProps = {
-	name: string;
-	img: string;
-	time: string;
+	name: any;
+	timeComplexity: any;
 }
 
-export const MiniRecipe = () => {
+export const MiniRecipe = (props: MiniRecipeProps) => {
   return (
 		<Paper sx={{ margin: 'auto',
 			height: 270,
@@ -40,12 +39,12 @@ export const MiniRecipe = () => {
 				<Grid item>
 					<Grid container direction="row">
 						<AccessTimeIcon color="inherit" />
-						<Typography color="text.primary" variant="h2">
-							60 min
+						<Typography color="text.primary">
+							{`${props.timeComplexity} min`}
 						</Typography>
 					</Grid>
-					<Typography color="text.primary" variant="h2">
-						Pizza
+					<Typography color="text.primary">
+						{props.name}
 					</Typography>
 				</Grid>
 			</Grid>
