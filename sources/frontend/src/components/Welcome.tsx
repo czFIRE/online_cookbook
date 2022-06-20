@@ -28,10 +28,11 @@ export type WelcomeProps = {
 export const Welcome = (props: WelcomeProps) => {
 	const navigation = useNavigate();
   	return (
-		<Grid sx={{ margin: 'auto', overflow: 'hidden' }}
+		<Grid sx={{ margin: 'auto'}}
 			container
 			alignContent="center"
 			direction="column"
+			justifyContent="center"
 			spacing={2}>
 			<Typography color="text.primary" variant="h2" align='center'>
 				Welcome to cookbook!
