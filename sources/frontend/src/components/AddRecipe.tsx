@@ -24,35 +24,6 @@ const Input = styled('input')({
 });
 
 export const AddRecipe = () => {
-
-  // const toDataURL = (url, callback) => {
-  //   var xhr = new XMLHttpRequest();
-  //   xhr.onload = function() {
-  //     var reader = new FileReader();
-  //     reader.onloadend = function() {
-  //       callback(reader.result);
-  //     }
-  //     reader.readAsDataURL(xhr.response);
-  //   };
-  //   xhr.open('GET', url);
-  //   xhr.responseType = 'blob';
-  //   xhr.send();
-  // }
-
-  // toDataURL('blob:http://localhost:3000/3fafeaba-f348-42ae-b6aa-6790aeec3d57', function(dataUrl) {
-  //   console.log('RESULT:', dataUrl)
-  // })
-
-
-
-
-
-
-
-
-
-
-
   const navigate = useNavigate();
 
   const [stepField, setStepField] = useState([
