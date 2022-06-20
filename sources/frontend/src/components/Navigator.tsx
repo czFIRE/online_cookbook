@@ -108,6 +108,15 @@ export const Navigator = (props: NavigatorProps) => {
                 console.log("Error here:", res);
                 return;
               }
+/*
+              let resCategory = await axios.get("//localhost:3003/category/" + res?.data?.data?.categoryId);
+
+              if (resCategory.statusText != "OK") {
+                console.log("Error here:", resCategory);
+                return;
+              }*/
+
+
               props.changeViewWithData(res.data.data, Components.SearchResult);
               }}>
             <ListItemButton sx={item} component={Link} to='/search' >
