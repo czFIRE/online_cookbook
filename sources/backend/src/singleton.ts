@@ -4,8 +4,8 @@ import { mockDeep, mockReset, DeepMockProxy } from 'jest-mock-extended'
 import prisma from './client'
 
 jest.mock('../src/client', () => ({
-  __esModule: true,
-  default: mockDeep<PrismaClient>(),
+    __esModule: true,
+    default: mockDeep<PrismaClient>(),
 }))
 
 beforeEach(() => mockReset(prismaMock))

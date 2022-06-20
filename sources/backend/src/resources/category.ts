@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import prisma from '../client';
+import { statusCodes } from './CONSTANTS';
 
 export const listCategory = async (req: Request, res: Response) => {
     const category = await prisma.category.findMany({
@@ -13,13 +14,13 @@ export const listCategory = async (req: Request, res: Response) => {
     })
 
     if (!category.length) {
-        return res.status(404).send({
+        return res.status(statusCodes.NotFound).send({
             status: "Not found",
             message: "Category was not found"
         })
     }
 
-    return res.send({
+    return res.status(statusCodes.Success).send({
         status: "success",
         data: category
     })
@@ -34,13 +35,13 @@ export const categories = async (req: Request, res: Response) => {
     })
 
     if (!categories.length) {
-        return res.status(404).send({
+        return res.status(statusCodes.NotFound).send({
             status: "Not found",
-            message: "There are no categories yet"
+            message: "There are no categories"
         })
     }
 
-    return res.send({
+    return res.status(statusCodes.Success).send({
         status: "success",
         data: categories,
     })
@@ -57,13 +58,13 @@ export const getCategoryName = async (req: Request, res: Response) => {
     })
 
     if (!category?.name) {
-        return res.status(404).send({
+        return res.status(statusCodes.NotFound).send({
             status: "Not found",
-            message: "There are no categories yet"
+            message: "There isn't any category with this id"
         })
     }
     
-    return res.send({
+    return res.status(statusCodes.Success).send({
         status: "success",
         data: category.name,
     })
