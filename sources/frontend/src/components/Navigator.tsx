@@ -24,7 +24,6 @@ import {Link} from "react-router-dom";
 import { RecipeProps } from './Recipe';
 
 
-
 const item = {
   py: '2px',
   px: 3,
@@ -69,18 +68,7 @@ export const Navigator = (props: NavigatorProps) => {
           comp: Components.AddRecipe
         },
       ],
-    },
-    {
-      id: 'Account',
-      children: [
-        { id: 'My account', icon: <TimerIcon />, linkTo: "/user/:id",
-        comp: Components.UserInfo },
-        { id: 'Log in', icon: <PhonelinkSetupIcon />, linkTo: "/",
-        comp: Components.SignIn },
-        { id: 'Log out', icon: <PhonelinkSetupIcon />, linkTo: "/",
-        comp: Components.Welcome },
-      ],
-    },
+    }
   ];
 
   return (
@@ -138,12 +126,6 @@ export const Navigator = (props: NavigatorProps) => {
 
               let result2 = await Promise.all(result).then((values) => values);
               console.log("finalreisalt", result2);
-              /*
-              await new Promise(resolve => setTimeout(resolve, 2000));
-              console.log("res2", await result2[0].then(x => x));
-              Promise.all(result).then((values) => {
-                console.log("promisvalue", values);
-              });*/
 
               props.changeViewWithData(result2, Components.SearchResult);
               }}>
