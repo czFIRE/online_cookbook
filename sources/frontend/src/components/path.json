@@ -2,5 +2,14 @@
     "path": {
         "recipes": "//localhost:3003/recipe/",
         "category": "//localhost:3003/category/"
-    }
+    },
+    "photos": [
+        "breakfast-1804457__340.jpg",
+        "eat-2834549__340.webp",
+        "hamburger-494706__340.webp",
+        "spaghetti-2931846__340.webp",
+        "canape-2802__340.webp",
+        "food-712665__480.jpg",
+        "pizza.jpg"
+    ]
 }

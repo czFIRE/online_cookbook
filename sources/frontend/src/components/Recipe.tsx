@@ -1,20 +1,13 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Tooltip from '@mui/material/Tooltip';
-import IconButton from '@mui/material/IconButton';
-import SearchIcon from '@mui/icons-material/Search';
-import RefreshIcon from '@mui/icons-material/Refresh';
 import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
+
+import data from "./path.json";
 
 export type RecipeProps = {
 	name: string,
+	id: string,
 	portions: number,
 	timeComplexity: number,
 	description: string,
@@ -43,8 +36,8 @@ export const Recipe = (props: RecipeProps) => {
 									maxHeight: { xs: 250 },
 									maxWidth: { xs: 250 },
 								}}
-								alt="Photo of pizza."
-								src="/pizza.jpg"/>
+								alt="Food photo."
+								src={data.photos[Math.floor(Math.random() * data.photos.length)]}/>
 						</Grid>
 							<Grid item sx={{ml: 2}}>
 								<Grid container spacing={3}>

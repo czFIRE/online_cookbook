@@ -65,6 +65,7 @@ export const Welcome = (props: WelcomeProps) => {
 					console.log("ppp", resCategory.data.data);
 					const res = {
 						name: p.name,
+						id: p.id,
 						portions: p.portions,
 						timeComplexity: p.timeComplexity,
 						description: p.description,
