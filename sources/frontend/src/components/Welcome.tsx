@@ -18,6 +18,7 @@ import FastfoodIcon from '@mui/icons-material/Fastfood';
 import axios from 'axios';
 import { RecipeProps } from './Recipe';
 import { Components } from './Cookbook';
+import path from './path.json';
 
 export type WelcomeProps = {
 	changeView: () => void;
@@ -43,7 +44,7 @@ export const Welcome = (props: WelcomeProps) => {
 			<Button variant="outlined" startIcon={<FastfoodIcon />} onClick={async () => {
 				navigation('/search');
 				props.changeView();
-				let res = await axios.get("//localhost:3003/recipe").then(x => x);
+				let res = await axios.get(path.path.recipes).then(x => x);
 
               
 				if (res.statusText != "OK") {
@@ -53,7 +54,7 @@ export const Welcome = (props: WelcomeProps) => {
 
 				let result: Promise<RecipeProps>[] = res.data.data.map(async (p, index) => {
 					console.log("p", p, index);
-					let resCategory = await axios.get("//localhost:3003/category/" + p.categoryId + "/name")
+					let resCategory = await axios.get(path.path.category + p.categoryId + "/name")
 					.then(x => x);
 					console.log("pp", resCategory, index)
 

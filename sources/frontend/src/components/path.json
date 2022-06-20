@@ -1,0 +1,6 @@
+{
+    "path": {
+        "recipes": "//localhost:3003/recipe/",
+        "category": "//localhost:3003/category/"
+    }
+}

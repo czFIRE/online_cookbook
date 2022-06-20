@@ -22,6 +22,7 @@ import axios from 'axios';
 
 import {Link} from "react-router-dom";
 import { RecipeProps } from './Recipe';
+import path from './path.json';
 
 
 const item = {
@@ -91,7 +92,7 @@ export const Navigator = (props: NavigatorProps) => {
         <Box key={'All'} sx={{ bgcolor: '#101F33' }}>
           <ListItem disablePadding key={'All recipes'}
             onClick={async () => {
-              let res = await axios.get("//localhost:3003/recipe").then(x => x);
+              let res = await axios.get(path.path.recipes).then(x => x);
 
               
               if (res.statusText != "OK") {
@@ -101,7 +102,7 @@ export const Navigator = (props: NavigatorProps) => {
 
               let result: Promise<RecipeProps>[] = res.data.data.map(async (p, index) => {
                 console.log("p", p, index);
-                let resCategory = await axios.get("//localhost:3003/category/" + p.categoryId + "/name")
+                let resCategory = await axios.get(path.path.category + p.categoryId + "/name")
                 .then(x => x);
                 console.log("pp", resCategory, index)
 
