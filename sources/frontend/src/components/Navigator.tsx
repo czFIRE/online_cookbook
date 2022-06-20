@@ -21,6 +21,7 @@ import { Components } from './Cookbook';
 import axios from 'axios';
 
 import {Link} from "react-router-dom";
+import { RecipeProps } from './Recipe';
 
 
 
@@ -102,22 +103,49 @@ export const Navigator = (props: NavigatorProps) => {
         <Box key={'All'} sx={{ bgcolor: '#101F33' }}>
           <ListItem disablePadding key={'All recipes'}
             onClick={async () => {
-              let res = await axios.get("//localhost:3003/recipe");
+              let res = await axios.get("//localhost:3003/recipe").then(x => x);
 
+              
               if (res.statusText != "OK") {
                 console.log("Error here:", res);
                 return;
               }
-/*
-              let resCategory = await axios.get("//localhost:3003/category/" + res?.data?.data?.categoryId);
 
-              if (resCategory.statusText != "OK") {
-                console.log("Error here:", resCategory);
-                return;
-              }*/
+              let result: Promise<RecipeProps>[] = res.data.data.map(async (p, index) => {
+                console.log("p", p, index);
+                let resCategory = await axios.get("//localhost:3003/category/" + p.categoryId + "/name")
+                .then(x => x);
+                console.log("pp", resCategory, index)
 
+                if (resCategory.statusText != "OK") {
+                  console.log("Error here:", resCategory);
+                  return;
+                }
+                console.log("ppp", resCategory.data.data);
+                const res = {
+                  name: p.name,
+                  portions: p.portions,
+                  timeComplexity: p.timeComplexity,
+                  description: p.description,
+                  category: resCategory.data.data,
+                  ingredients: p.ingredients,
+                  steps: p.steps
+                };
+                return res;
+              });
 
-              props.changeViewWithData(res.data.data, Components.SearchResult);
+              console.log("res", result);
+
+              let result2 = await Promise.all(result).then((values) => values);
+              console.log("finalreisalt", result2);
+              /*
+              await new Promise(resolve => setTimeout(resolve, 2000));
+              console.log("res2", await result2[0].then(x => x));
+              Promise.all(result).then((values) => {
+                console.log("promisvalue", values);
+              });*/
+
+              props.changeViewWithData(result2, Components.SearchResult);
               }}>
             <ListItemButton sx={item} component={Link} to='/search' >
               <ListItemIcon><PermMediaOutlinedIcon /></ListItemIcon>
