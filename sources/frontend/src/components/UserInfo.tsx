@@ -39,7 +39,7 @@ export const UserInfo = (props: UserInfoProps) => {
 								navigation(p.url);
 								props.changeView();
 							}}>
-							<MiniRecipe />
+							
 						</div>
 					</Grid>)})}
 			</Grid>
