@@ -210,6 +210,7 @@ export const Cookbook = (props: CookbookProps) => {
   const [recipe, setRecipe] = useState<RecipeProps>(
     {
       name: "",
+      id: "",
       portions: 0,
       timeComplexity: 0,
       description: "",
