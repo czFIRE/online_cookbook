@@ -79,7 +79,27 @@ export const destroy = async (req: Request, res: Response) => {
     });
     
     return res.status(statusCodes.Success).send({
-        status: "sucess",
+        status: "success",
         message: "Recipe removed"
+    })
+}
+
+
+export const getImages = async (req: Request, res: Response) => {
+    console.log("Getting images");
+    const images = await prisma.recipe.findUnique({
+        where: {
+            id: req.params.id,
+        },
+        select: {
+            Image: {select: {
+                base64: true,
+            }},
+        }
+    })
+
+    return res.status(statusCodes.Success).send({
+        status: "success",
+        data: images,
     })
 }

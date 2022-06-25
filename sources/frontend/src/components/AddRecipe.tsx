@@ -81,15 +81,21 @@ export const AddRecipe = () => {
       steps: stepField.map(x => x.value).join("\n"),
       //steps: stepField[0].value,
       categoryId: categoryOptions[0].id,
-      userId: "f8fb2811-b24a-495e-aa5a-840ba5cb1a34",
     };
     const url = path.path.recipes;
-    let res = await axios.post(url, body).then((x) => {
+    let res = await axios.post(url, body).then(async (x) => {
       console.log(x);
 
-      if (x.status != 200) {
+      if (x.status != 201) {
         return;
       }
+
+      console.log("Adding the picture now to" + x.data.data);
+      console.log(fileField[0].file);
+      let res2 = await axios.post(url + x.data.data + "/image", encodeURIComponent(fileField[0].file)).then(y => {
+        console.log(y);
+        console.log("Image upload done");
+      })
 
       navigate('/recipe/' + x.data.data);
     });
@@ -113,7 +119,7 @@ export const AddRecipe = () => {
     return cond;
   }
 
-  const [fileField, setFileField] = useState<{ id: string, file: ArrayBuffer, url: string }[]>([]);
+  const [fileField, setFileField] = useState<{ id: string, file: string, url: string }[]>([]);
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (fileField.length == 0) {
@@ -136,7 +142,7 @@ export const AddRecipe = () => {
       }
     }
 
-    let tmp: { id: string, file: ArrayBuffer, url: string }[] = [];
+    let tmp: { id: string, file: string, url: string }[] = [];
 
     for (let i = 0; i < event.target.files.length; i++) {
       let helper = true;
@@ -149,7 +155,7 @@ export const AddRecipe = () => {
         // convert image file to base64 string
         console.log("DATA_URL", reader.result);
 
-        tmp = [...tmp, { id: uuidv4(), file: reader.result! as ArrayBuffer, url: url }];
+        tmp = [...tmp, { id: uuidv4(), file: reader.result! as string, url: url }];
 
         helper = false;
       }, false);

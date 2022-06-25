@@ -8,11 +8,8 @@ const imageSchema = object({
 });
 
 export const upload = async (req: Request, res: Response) => {
-    console.log(req.body);
-    console.log(Object.keys(req.body.data)[0]);
-    console.log(req.params.id);
     const image = {
-        base64: Object.keys(req.body.data)[0],
+        base64: Object.keys(req.body)[0],
         recipeId: req.params.id!,
     }
     try {
