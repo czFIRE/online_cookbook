@@ -10,13 +10,12 @@ import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardMedia from '@mui/material/CardMedia';
 import axios from 'axios';
-import { read } from 'fs';
 import path from './path.json';
 
 

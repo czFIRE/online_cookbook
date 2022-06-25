@@ -7,18 +7,14 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import {Navigator} from './Navigator';
-import Content from './Content';
 import {Header} from './Header';
 import {Recipe} from './Recipe';
 import {Welcome} from './Welcome';
-import {MiniRecipe} from './MiniRecipe';
 import {SearchResult} from './SearchResult';
 import {AddRecipe} from './AddRecipe';
-import { Register } from './Register';
 import { SignIn } from './SignIn';
 import {UserInfo} from './UserInfo';
 import { useNavigate } from 'react-router-dom';
-import { createContext } from 'vm';
 import { RecipeProps } from './Recipe';
 
 const Copyright = () => {
