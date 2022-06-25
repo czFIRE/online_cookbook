@@ -70,15 +70,21 @@ export const AddRecipe = () => {
       steps: stepField.map(x => x.value).join("\n"),
       //steps: stepField[0].value,
       categoryId: categoryField[0].id,
-      userId: "f8fb2811-b24a-495e-aa5a-840ba5cb1a34",
     };
     const url = path.path.recipes;
-    let res = await axios.post(url, body).then((x) => {
+    let res = await axios.post(url, body).then(async (x) => {
       console.log(x);
 
-      if (x.status != 200) {
+      if (x.status != 201) {
         return;
       }
+
+      console.log("Adding the picture now to" + x.data.data);
+      console.log(fileField[0].file);
+      let res2 = await axios.post(url + x.data.data + "/image", encodeURIComponent(fileField[0].file)).then(y => {
+        console.log(y);
+        console.log("Image upload done");
+      })
 
       navigate('/recipe/' + x.data.data);
     });
@@ -106,10 +112,6 @@ export const AddRecipe = () => {
   errorCount += stepInputErrorCount;
   errorCount += ingredientsInputErrorCount;
   errorCount += categoryInputErrorCount;
-
-
-
-
 
   const elem = (
     <Grid container component="form" direction="column">

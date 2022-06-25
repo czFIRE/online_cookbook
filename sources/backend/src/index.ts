@@ -12,11 +12,12 @@ api.use(express.urlencoded({ extended: true }));
 api.use(express.static('public'));
 
 // Recipe handling
-api.get('/recipe',          recipe.list);
-api.get('/recipe/:id',      recipe.show);
-api.post('/recipe',         recipe.create);
+api.get('/recipe',                recipe.list);
+api.get('/recipe/:id',            recipe.show);
+api.post('/recipe',               recipe.create);
+api.get('/recipe/:id/image',      recipe.getImages);
 api.post('/recipe/:id/image',     image.upload)
-api.delete('/recipe/:id',   recipe.destroy);
+api.delete('/recipe/:id',         recipe.destroy);
 
 // Categories
 api.get('/category',            category.categories)
