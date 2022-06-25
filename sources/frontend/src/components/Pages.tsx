@@ -1,10 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { AddRecipe } from './AddRecipe';
-import { Recipe } from './Recipe';
-import { SearchResult } from  './SearchResult';
 import { Cookbook } from './Cookbook';
 import { App } from '../App';
-import { Welcome } from './Welcome';
 import { Components } from './Cookbook';
 
 export const Pages = () => {

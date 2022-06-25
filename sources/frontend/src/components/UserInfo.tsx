@@ -1,9 +1,5 @@
-import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import { MiniRecipe } from './MiniRecipe';
 import { useNavigate } from 'react-router-dom';
 
 export type UserInfoProps = {
@@ -39,7 +35,7 @@ export const UserInfo = (props: UserInfoProps) => {
 								navigation(p.url);
 								props.changeView();
 							}}>
-							<MiniRecipe />
+							
 						</div>
 					</Grid>)})}
 			</Grid>

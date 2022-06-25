@@ -7,18 +7,14 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import {Navigator} from './Navigator';
-import Content from './Content';
 import {Header} from './Header';
 import {Recipe} from './Recipe';
 import {Welcome} from './Welcome';
-import {MiniRecipe} from './MiniRecipe';
 import {SearchResult} from './SearchResult';
 import {AddRecipe} from './AddRecipe';
-import { Register } from './Register';
 import { SignIn } from './SignIn';
 import {UserInfo} from './UserInfo';
 import { useNavigate } from 'react-router-dom';
-import { createContext } from 'vm';
 import { RecipeProps } from './Recipe';
 
 const Copyright = () => {
@@ -206,10 +202,11 @@ export const Cookbook = (props: CookbookProps) => {
   };
 
   const [step, setStep] = useState<Components>(props.centralComponent);
-  const [recipes, setRecipes] = useState();
+  const [recipes, setRecipes] = useState<RecipeProps[]>([]);
   const [recipe, setRecipe] = useState<RecipeProps>(
     {
       name: "",
+      id: "",
       portions: 0,
       timeComplexity: 0,
       description: "",
@@ -258,8 +255,9 @@ export const Cookbook = (props: CookbookProps) => {
           <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: '#eaeff1' }}>
             {step == Components.Welcome
                 && (
-                <Welcome changeView={() => setStep(Components.ShowRecipe)}
-                recipe={recipe}/>        
+                <Welcome changeView={() => setStep(Components.SearchResult)}
+                recipe={recipe}
+                changeViewWithData={(data, comp) => newStep(data, comp)}/>        
             )}
             {step == Components.AddRecipe
                 && (

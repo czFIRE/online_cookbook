@@ -41,7 +41,7 @@ export const SearchResult = (props: SearchRecipeProps) => {
 						navigation('/recipe/' + p.id);
 						props.changeView(p);
 					}}>
-						<MiniRecipe name={p.name} timeComplexity={p.timeComplexity} />
+						<MiniRecipe key={p.id} name={p.name} timeComplexity={p.timeComplexity} />
 					</div>
 				</Grid>)})}
 		</Grid>

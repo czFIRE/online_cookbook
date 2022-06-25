@@ -1,6 +1,5 @@
-import * as React from 'react';
 import Divider from '@mui/material/Divider';
-import Drawer, { DrawerProps } from '@mui/material/Drawer';
+import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
@@ -8,20 +7,13 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
-import PeopleIcon from '@mui/icons-material/People';
-import DnsRoundedIcon from '@mui/icons-material/DnsRounded';
 import PermMediaOutlinedIcon from '@mui/icons-material/PhotoSizeSelectActual';
-import PublicIcon from '@mui/icons-material/Public';
-import SettingsEthernetIcon from '@mui/icons-material/SettingsEthernet';
-import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent';
-import TimerIcon from '@mui/icons-material/Timer';
-import SettingsIcon from '@mui/icons-material/Settings';
-import PhonelinkSetupIcon from '@mui/icons-material/PhonelinkSetup';
 import { Components } from './Cookbook';
 import axios from 'axios';
 
 import {Link} from "react-router-dom";
-
+import { RecipeProps } from './Recipe';
+import path from './path.json';
 
 
 const item = {
@@ -68,18 +60,7 @@ export const Navigator = (props: NavigatorProps) => {
           comp: Components.AddRecipe
         },
       ],
-    },
-    {
-      id: 'Account',
-      children: [
-        { id: 'My account', icon: <TimerIcon />, linkTo: "/user/:id",
-        comp: Components.UserInfo },
-        { id: 'Log in', icon: <PhonelinkSetupIcon />, linkTo: "/",
-        comp: Components.SignIn },
-        { id: 'Log out', icon: <PhonelinkSetupIcon />, linkTo: "/",
-        comp: Components.Welcome },
-      ],
-    },
+    }
   ];
 
   return (
@@ -102,22 +83,44 @@ export const Navigator = (props: NavigatorProps) => {
         <Box key={'All'} sx={{ bgcolor: '#101F33' }}>
           <ListItem disablePadding key={'All recipes'}
             onClick={async () => {
-              let res = await axios.get("//localhost:3003/recipe");
+              let res = await axios.get(path.path.recipes).then(x => x);
 
+              
               if (res.statusText != "OK") {
                 console.log("Error here:", res);
                 return;
               }
-/*
-              let resCategory = await axios.get("//localhost:3003/category/" + res?.data?.data?.categoryId);
 
-              if (resCategory.statusText != "OK") {
-                console.log("Error here:", resCategory);
-                return;
-              }*/
+              let result: Promise<RecipeProps>[] = res.data.data.map(async (p, index) => {
+                console.log("p", p, index);
+                let resCategory = await axios.get(path.path.category + p.categoryId + "/name")
+                .then(x => x);
+                console.log("pp", resCategory, index)
 
+                if (resCategory.statusText != "OK") {
+                  console.log("Error here:", resCategory);
+                  return;
+                }
+                console.log("ppp", resCategory.data.data);
+                const res = {
+                  name: p.name,
+                  id: p.id,
+                  portions: p.portions,
+                  timeComplexity: p.timeComplexity,
+                  description: p.description,
+                  category: resCategory.data.data,
+                  ingredients: p.ingredients,
+                  steps: p.steps
+                };
+                return res;
+              });
 
-              props.changeViewWithData(res.data.data, Components.SearchResult);
+              console.log("res", result);
+
+              let result2 = await Promise.all(result).then((values) => values);
+              console.log("finalreisalt", result2);
+
+              props.changeViewWithData(result2, Components.SearchResult);
               }}>
             <ListItemButton sx={item} component={Link} to='/search' >
               <ListItemIcon><PermMediaOutlinedIcon /></ListItemIcon>

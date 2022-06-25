@@ -10,13 +10,13 @@ import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardMedia from '@mui/material/CardMedia';
 import axios from 'axios';
-import { read } from 'fs';
+import path from './path.json';
 
 
 const Input = styled('input')({
@@ -83,7 +83,7 @@ export const AddRecipe = () => {
       categoryId: categoryOptions[0].id,
       userId: "f8fb2811-b24a-495e-aa5a-840ba5cb1a34",
     };
-    const url = "//localhost:3003/recipe";
+    const url = path.path.recipes;
     let res = await axios.post(url, body).then((x) => {
       console.log(x);
 
@@ -379,7 +379,7 @@ export const AddRecipe = () => {
 
                   onClick={async () => {
                     if (categoryOptions.length === 0) {
-                      let res = await axios.get("//localhost:3003/category");
+                      let res = await axios.get(path.path.category);
 
                       if (res.statusText != "OK") {
                         console.log("Error here:", res);
