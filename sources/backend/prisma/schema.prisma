@@ -14,6 +14,7 @@ model Recipe {
   portions       Int
   ingredients    String[]
   steps          String[]
+  description    String
   categoryId     String
   category       Category        @relation(fields: [categoryId], references: [id])
   Image          Image[]
@@ -27,7 +28,8 @@ model Category {
 }
 
 model Image {
-  url      String @id
+  id       String @id @default(uuid())
+  base64   String
   recipeId String
   recipe   Recipe @relation(fields: [recipeId], references: [id])
 }

@@ -11,7 +11,6 @@ const recipeSchema = object({
     ingredients: string().required(),
     steps: string().required(),
     categoryId: string().required().uuid(),
-    userId: string().required().uuid(),
 });
 
 export const list = async (req: Request, res: Response) => {
@@ -44,6 +43,7 @@ export const show = async (req: Request, res: Response) => {
 }
 
 export const create = async (req: Request, res: Response) => {
+    console.log(req.body);
     try {
         const data = await recipeSchema.validate(req.body);
         const recipe = await prisma.recipe.create({
