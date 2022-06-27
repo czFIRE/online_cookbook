@@ -4,6 +4,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 
 import data from "./path.json";
+import { List, ListItem } from '@mui/material';
 
 export type RecipeProps = {
 	name: string,
@@ -17,12 +18,14 @@ export type RecipeProps = {
 }
 
 export const Recipe = (props: RecipeProps) => {
-	console.log(props.ingredients);
-  return (
+	console.log("INGREDIENTS:", props.ingredients);
+	console.log("IMAGE:", data.photos[Math.floor(Math.random() * data.photos.length)]);
+	console.log("HEHE:", props.ingredients[0].split("\n"));
+	return (
 		<Paper sx={{ margin: 'auto', overflow: 'hidden' }}>
 			<Grid container direction="column" spacing={1}>
 				<Grid item>
-					<Typography color="text.primary" variant="h2" sx={{mt: 1}}>
+					<Typography color="text.primary" variant="h2" sx={{ mt: 1 }}>
 						{props.name}
 					</Typography>
 				</Grid>
@@ -37,63 +40,77 @@ export const Recipe = (props: RecipeProps) => {
 									maxWidth: { xs: 250 },
 								}}
 								alt="Food photo."
-								src={data.photos[Math.floor(Math.random() * data.photos.length)]}/>
+								src={"http://localhost:3000/" + data.photos[Math.floor(Math.random() * data.photos.length)]}
+								//src="http://localhost:3000/breakfast-1804457__340.jpg"
+							/>
 						</Grid>
-							<Grid item sx={{ml: 2}}>
-								<Grid container spacing={3}>
-									<Grid item>
-										<Typography color="text.secondary">
-											{`Portions: ${props.portions}`}
-										</Typography>
-									</Grid>
-									<Grid item>
-										<Typography color="text.secondary">
-											{`Time: ${props.timeComplexity} min`}
-										</Typography>
-									</Grid>
-									<Grid item>
-										<Typography color="text.secondary">
-											{`Category: ${props.category}`}
-										</Typography>
-									</Grid>
+						<Grid item sx={{ ml: 2 }}>
+							<Grid container spacing={3}>
+								<Grid item>
+									<Typography color="text.secondary">
+										{`Portions: ${props.portions}`}
+									</Typography>
 								</Grid>
 								<Grid item>
 									<Typography color="text.secondary">
-										{props.description}
+										{`Time: ${props.timeComplexity} min`}
 									</Typography>
 								</Grid>
 								<Grid item>
-									<Typography color="text.primary">
-										Ingredients:
+									<Typography color="text.secondary">
+										{`Category: ${props.category}`}
 									</Typography>
-									<Grid>
-										{props.ingredients.map((i) => {
-											return (
-												<Typography color="text.primary">
-													{i}
-												</Typography>
-											)
-										})}
-									</Grid>
-								</Grid>
-								<Grid item>
-									<Typography color="text.primary">
-										Steps:
-									</Typography>
-									<Grid>
-										{props.steps.map((s) => {
-											return (
-												<Typography color="text.primary">
-													{s}
-												</Typography>
-											)
-										})}
-									</Grid>
 								</Grid>
 							</Grid>
+							{/* Add ordered list for ingredients and */}
+							<Grid item>
+								<Typography color="text.primary">
+									Ingredients:
+								</Typography>
+
+								<Grid>
+									<List sx={{ listStyleType: 'decimal' }}>
+										{props.ingredients[0].split("\n").map((i) => {
+											return (
+												<ListItem sx={{ display: 'list-item', ml: 2 }}>
+													{i}
+												</ListItem>
+											)
+										})}
+									</List>
+
+								</Grid>
+							</Grid>
+							<Grid item>
+								<Typography color="text.primary">
+									Steps:
+								</Typography>
+								<Grid>
+								<List sx={{ listStyleType: 'decimal' }}>
+										{props.steps[0].split("\n").map((i) => {
+											return (
+												<ListItem sx={{ display: 'list-item', ml: 2 }}>
+													{i}
+												</ListItem>
+											)
+										})}
+									</List>
+								</Grid>
+							</Grid>
+
+							<Grid item>
+								<Typography color="text.primary">
+									Description:
+								</Typography>
+								<Typography color="text.secondary">
+									<br/>
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {props.description}
+								</Typography>
+							</Grid>
+						</Grid>
 					</Grid>
 				</Grid>
 			</Grid>
 		</Paper>
-  );
+	);
 }

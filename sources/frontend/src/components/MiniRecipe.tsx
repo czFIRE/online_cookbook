@@ -13,6 +13,7 @@ export type MiniRecipeProps = {
 }
 
 export const MiniRecipe = (props: MiniRecipeProps) => {
+	//console.log("IMAGE:", data.photos[Math.floor(Math.random() * data.photos.length)]);
   return (
 		<Paper sx={{ margin: 'auto',
 			height: 270,
@@ -27,7 +28,8 @@ export const MiniRecipe = (props: MiniRecipeProps) => {
 							width: 200
 						}}
 						alt="Food photo."
-						src={data.photos[Math.floor(Math.random() * data.photos.length)]}/>
+						src={data.photos[Math.floor(Math.random() * data.photos.length)]}
+					/>
 				</Grid>
 				<Grid item>
 					<Grid container direction="row">
