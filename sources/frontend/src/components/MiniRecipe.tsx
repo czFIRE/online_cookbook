@@ -5,21 +5,23 @@ import Box from '@mui/material/Box';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 import data from "./path.json";
+import {Link} from "react-router-dom";
 
 
 export type MiniRecipeProps = {
 	name: any;
+	rec_id: string;
 	timeComplexity: any;
 }
 
 export const MiniRecipe = (props: MiniRecipeProps) => {
-	//console.log("IMAGE:", data.photos[Math.floor(Math.random() * data.photos.length)]);
   return (
 		<Paper sx={{ margin: 'auto',
 			height: 270,
 			width: 200,
 			overflow: 'hidden',
-			mt: 2 }}>
+			mt: 2,
+			}} component={Link} to={'/recipe/' + props.rec_id}>
 			<Grid container direction="column" spacing={1}>
 				<Grid item>
 					<Box component="img"

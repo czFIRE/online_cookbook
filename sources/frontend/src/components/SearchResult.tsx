@@ -33,7 +33,7 @@ export const SearchResult = (props: SearchRecipeProps) => {
   const navigation = useNavigate();
   
   return (
-		<Grid container spacing={2}>
+		<Grid container spacing={2} >
 			{props.recipe.map((p) => {
 			return (
 				<Grid item>
@@ -41,7 +41,7 @@ export const SearchResult = (props: SearchRecipeProps) => {
 						navigation('/recipe/' + p.id);
 						props.changeView(p);
 					}}>
-						<MiniRecipe key={p.id} name={p.name} timeComplexity={p.timeComplexity} />
+						<MiniRecipe key={p.id} rec_id={p.id} name={p.name} timeComplexity={p.timeComplexity} />
 					</div>
 				</Grid>)})}
 		</Grid>
