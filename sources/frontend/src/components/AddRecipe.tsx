@@ -58,16 +58,13 @@ export const AddRecipe = () => {
   ]);
 
   const handleSubmit = async (event) => {
-    //e.preventDefault();
     const body = {
       name: basicField[0].value,
       timeComplexity: +basicField[1].value,
       portions: +basicField[2].value,
       ingredients: ingredientsField.map(x => x.value).join("\n"),
-      //ingredients: ingredientsField[0].value,
       description: basicField[3].value,
       steps: stepField.map(x => x.value).join("\n"),
-      //steps: stepField[0].value,
       categoryId: categoryField[0].id,
     };
     const url = path.path.recipes;
@@ -105,15 +102,6 @@ export const AddRecipe = () => {
 
       navigate('/recipe/' + x.data.data);
     });
-
-    // send it to the DB
-
-    // await DB response
-
-    // Show user "recipe added"
-
-    // redirect
-
   };
 
   const [fileField, setFileField] = useState<{ id: string, file: ArrayBuffer, url: string, fileBin: File }[]>([]);

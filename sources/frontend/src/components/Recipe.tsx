@@ -50,7 +50,6 @@ export const Recipe = (props: RecipeProps) => {
 								}}
 
 								alt="Food photo."
-								//src={"http://localhost:3000/" + data.photos[Math.floor(Math.random() * data.photos.length)]}
 								src={"http://localhost:3003/" + props.imageURL}
 							/>
 						</Grid>
@@ -72,7 +71,7 @@ export const Recipe = (props: RecipeProps) => {
 									</Typography>
 								</Grid>
 							</Grid>
-							{/* Add ordered list for ingredients and */}
+
 							<Grid item>
 								<Typography color="text.primary">
 									Ingredients:

@@ -29,13 +29,9 @@ export const Images = (props: ImageProps) => {
             return;
         }
 
-        console.log("Got ", event.target.files.length, " files");
 
         for (let i = 0; i < event.target.files.length; i++) {
             if (!event.target.files[i].type.includes('image')) {
-                // give error to user
-
-                console.log("This file is not an image!");
 
                 return;
             }
@@ -52,9 +48,6 @@ export const Images = (props: ImageProps) => {
             const reader = new FileReader();
 
             reader.addEventListener("load", function () {
-                // convert image file to base64 string
-                console.log("DATA_URL", reader.result);
-
                 tmp = [...tmp, { id: uuidv4(), file: reader.result! as ArrayBuffer, url: url, fileBin: event!.target!.files![i] }];
 
                 helper = false;
@@ -65,9 +58,6 @@ export const Images = (props: ImageProps) => {
             // This is horrible, but I don't know how else to do it
             while (helper) { await new Promise(resolve => setTimeout(resolve, 1000)); }
         }
-
-        console.log("temp:", tmp);
-
         props.setFileField([...props.fileField, ...tmp]);
     }
 

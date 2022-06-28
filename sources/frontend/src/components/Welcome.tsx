@@ -21,24 +21,18 @@ export const showMiniImages = async (navigation, props) => {
 
   
 	if (res.statusText != "OK") {
-		console.log("Error here:", res);
 		return;
 	}
 
 	let result: Promise<RecipeProps>[] = res.data.data.map(async (p, index) => {
-		console.log("p", p, index);
 		let resCategory = await axios.get(path.path.category + p.categoryId + "/name")
 		.then(x => x);
-		console.log("pp", resCategory, index)
 
 		let images = await getImages(p.id);
-		console.log("AAAAA", images);
 
 		if (resCategory.statusText != "OK") {
-			console.log("Error here:", resCategory);
 			return;
 		}
-		console.log("ppp", resCategory.data.data);
 		const res = {
 			name: p.name,
 			id: p.id,
@@ -53,10 +47,10 @@ export const showMiniImages = async (navigation, props) => {
 		return res;
 	});
 
-	console.log("res", result);
+
 
 	let result2 = await Promise.all(result).then((values) => values);
-	console.log("finalreisalt", result2);
+
 
 	props.changeViewWithData(result2, Components.SearchResult);
 }

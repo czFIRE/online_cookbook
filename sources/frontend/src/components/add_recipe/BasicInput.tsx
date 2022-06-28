@@ -80,8 +80,6 @@ export const BasicInput = (props: BasicInputProps) => {
 
     </>);
 
-    console.log("ERRORS IN CHILD:", errorCount);
-
     props.setIntraErrors(errorCount);
 
     return elem;

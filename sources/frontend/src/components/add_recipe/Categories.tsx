@@ -68,7 +68,6 @@ export const Categories = (props: CategoryProps) => {
                                     let res = await axios.get(path.path.category);
 
                                     if (res.statusText != "OK") {
-                                        console.log("Error here:", res);
                                         return;
                                     }
 
