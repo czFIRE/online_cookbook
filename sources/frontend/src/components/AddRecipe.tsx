@@ -1,20 +1,11 @@
 import * as React from 'react';
-import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import AddIcon from '@mui/icons-material/Add';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { useNavigate } from 'react-router-dom';
 
-import Card from '@mui/material/Card';
-import CardActionArea from '@mui/material/CardActionArea';
-import CardMedia from '@mui/material/CardMedia';
 import axios from 'axios';
 import path from './path.json';
 
@@ -130,15 +121,15 @@ export const AddRecipe = () => {
         <Grid container spacing={2}>
 
           <Grid item xs={4}>
-            <Steps stepField={stepField} setStepField={setStepField} setIntraErrors={setStepInputErrorCount}/>
+            <Steps stepField={stepField} setStepField={setStepField} setIntraErrors={setStepInputErrorCount} />
           </Grid>
 
           <Grid item xs={8}>
-            <Ingredients ingredientsField={ingredientsField} setIngredientsField={setIngredientsField} setIntraErrors={setIngredientsInputErrorCount}/>
+            <Ingredients ingredientsField={ingredientsField} setIngredientsField={setIngredientsField} setIntraErrors={setIngredientsInputErrorCount} />
           </Grid>
 
           <Grid item>
-            <Images fileField={fileField} setFileField={setFileField}/>
+            <Images fileField={fileField} setFileField={setFileField} />
           </Grid>
 
         </Grid>
@@ -146,7 +137,7 @@ export const AddRecipe = () => {
       </Grid>
 
       <Grid item sx={{ mt: 3 }} xs={8}>
-        <Categories categoryField={categoryField} setCategoryField={setCategoryField} setIntraErrors={setCategoryInputErrorCount}/>
+        <Categories categoryField={categoryField} setCategoryField={setCategoryField} setIntraErrors={setCategoryInputErrorCount} />
       </Grid>
 
       <Grid item sx={{ mt: 2 }}>
