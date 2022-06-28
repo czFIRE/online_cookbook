@@ -41,6 +41,7 @@ export const Recipe = (props: RecipeProps) => {
 								}}
 								alt="Food photo."
 								src={"http://localhost:3000/" + data.photos[Math.floor(Math.random() * data.photos.length)]}
+								//src={() => {return ""}}
 								//src="http://localhost:3000/breakfast-1804457__340.jpg"
 							/>
 						</Grid>

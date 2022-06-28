@@ -129,7 +129,7 @@ export const AddRecipe = () => {
 
   };
 
-  const [fileField, setFileField] = useState<{ id: string, file: ArrayBuffer, url: string }[]>([]);
+  const [fileField, setFileField] = useState<{ id: string, file: ArrayBuffer, url: string, fileBin: File }[]>([]);
 
   let errorCount = 0;
 

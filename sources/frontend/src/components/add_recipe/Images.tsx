@@ -15,7 +15,7 @@ const Input = styled('input')({
 });
 
 export type ImageProps = {
-    fileField: { id: string, file: ArrayBuffer, url: string }[],
+    fileField: { id: string, file: ArrayBuffer, url: string, fileBin: File }[],
     setFileField: any,
 }
 
@@ -41,7 +41,8 @@ export const Images = (props: ImageProps) => {
             }
         }
 
-        let tmp: { id: string, file: ArrayBuffer, url: string }[] = [];
+        let tmp: { id: string, file: ArrayBuffer, url: string, fileBin: File }[] = [];
+
 
         for (let i = 0; i < event.target.files.length; i++) {
             let helper = true;
@@ -54,7 +55,7 @@ export const Images = (props: ImageProps) => {
                 // convert image file to base64 string
                 console.log("DATA_URL", reader.result);
 
-                tmp = [...tmp, { id: uuidv4(), file: reader.result! as ArrayBuffer, url: url }];
+                tmp = [...tmp, { id: uuidv4(), file: reader.result! as ArrayBuffer, url: url, fileBin: event!.target!.files![i] }];
 
                 helper = false;
             }, false);
