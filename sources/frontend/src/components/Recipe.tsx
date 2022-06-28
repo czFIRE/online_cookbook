@@ -21,29 +21,19 @@ export type RecipeProps = {
 
 export const getImages = async (id: string) => {
 	const ret = `//localhost:3003/recipe/${id}/image`;
-	console.log("LOKACE:", ret);
 	return await axios.get(ret).then(x => {
-		console.log("ZDE?!", x)
-
 		let tmp = x.data.data.Image[0].base64;
-
-		console.log("Máme to?", tmp);
 
 		return tmp;
 	});
 }
 
 export const Recipe = (props: RecipeProps) => {
-	console.log("INGREDIENTS:", props.ingredients);
-	console.log("IMAGE:", data.photos[Math.floor(Math.random() * data.photos.length)]);
-	console.log("HEHE:", props.ingredients[0].split("\n"));
-	console.log("OBRZA:", props.imageURL);
 	return (
 		<Paper sx={{ margin: 'auto', overflow: 'hidden' }} >
 			<Grid container direction="column" spacing={1}>
 				<Grid item>
 					<Typography color="text.primary" variant="h2" sx={{ mt: 1 }} onChange={async () => {
-						console.log("COTO?", await getImages(props.id).then(x => x));
 					}}>
 						{props.name}
 					</Typography>

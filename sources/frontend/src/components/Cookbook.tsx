@@ -66,13 +66,14 @@ export const Cookbook = (props: CookbookProps) => {
       description: "",
       category: "",
       ingredients: [],
-      steps: []
+      steps: [],
+      imageURL: "",
   });
   const navigation = useNavigate();
   const newStep = (data, comp) => {
     setRecipes(data)
     setStep(comp);
-    console.log(data);
+
   }
 
   return (

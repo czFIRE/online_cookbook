@@ -59,7 +59,6 @@ export const AddRecipe = () => {
 
   const handleSubmit = async (event) => {
     //e.preventDefault();
-    console.log("Submitted");
     const body = {
       name: basicField[0].value,
       timeComplexity: +basicField[1].value,
@@ -73,7 +72,6 @@ export const AddRecipe = () => {
     };
     const url = path.path.recipes;
     let res = await axios.post(url, body).then(async (x) => {
-      console.log(x);
 
       if (x.status != 201) {
         return;
@@ -88,32 +86,21 @@ export const AddRecipe = () => {
       let helper: Boolean = false;
 
       reader.onload = function () {
-        console.log("RESULT:", reader.result);
         body = reader.result;
         helper = true;
       }
 
       while (!helper) {
         await new Promise(resolve => setTimeout(resolve, 1000));
-        console.log("CYCLING:", reader.readyState);
       }
 
-      console.log("BODY: ", body);
-
-
-      console.log("Adding the picture now to" + x.data.data);
-      console.log(fileField[0].fileBin);
       let formData = new FormData();
       formData.append('body', fileField[0].fileBin);
-      console.log("formData:", formData);
       let res2 = await axios.post(url + x.data.data + "/image", formData).then(y => {
 
-        console.log(y);
-        console.log("Image upload done");
       })
 
       let res3 = await axios.get(url + x.data.data + "/image").then(z => {
-        console.log("z", z.data.data.Image[0].base64);
       })
 
       navigate('/recipe/' + x.data.data);
@@ -180,13 +167,6 @@ export const AddRecipe = () => {
       </Grid>
     </Grid>
   );
-
-  console.log("ingredients:", ingredientsField);
-  console.log("steps:", stepField);
-  console.log("basic:", basicField);
-  console.log("ERRORS:", errorCount);
-  console.log("FILE FIELD:", fileField);
-  console.log(categoryField);
 
   return elem;
 }
