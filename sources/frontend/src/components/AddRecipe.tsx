@@ -117,10 +117,14 @@ export const AddRecipe = () => {
       let formData = new FormData();
       formData.append('body', fileField[0].fileBin);
       console.log("formData:", formData);
-      let res2 = await axios.post(url + x.data.data + "/image2", formData).then(y => {
+      let res2 = await axios.post(url + x.data.data + "/image", formData).then(y => {
 
         console.log(y);
         console.log("Image upload done");
+      })
+
+      let res3 = await axios.get(url + x.data.data + "/image").then(z => {
+        console.log("z", z.data.data.Image[0].base64);
       })
 
       navigate('/recipe/' + x.data.data);
