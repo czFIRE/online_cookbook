@@ -18,10 +18,31 @@ import CardMedia from '@mui/material/CardMedia';
 import axios from 'axios';
 import path from './path.json';
 
+import { BasicInput } from './add_recipe/BasicInput';
+import { Steps } from './add_recipe/Steps';
+import { Ingredients } from './add_recipe/Ingredients';
+import { Categories } from './add_recipe/Categories';
+import { Images } from './add_recipe/Images';
 
-const Input = styled('input')({
-  display: 'none',
-});
+
+
+export const handleErrorChange = (cond: boolean, setErrorNumber: any, error: number) => {
+  if (cond) setErrorNumber(error + 1);
+
+  return cond;
+}
+
+export const handleInputChange = (id: string, event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, field: { id: string; value: string; }[], setter: any) => {
+  const newInputFields = field.map(i => {
+    if (id === i.id) {
+      i.value = event.target.value
+    }
+    return i;
+  })
+
+  setter(newInputFields);
+}
+
 
 export const AddRecipe = () => {
   const navigate = useNavigate();
@@ -30,21 +51,9 @@ export const AddRecipe = () => {
     { id: uuidv4(), value: "" },
   ]);
 
-  const removeStepField = (id: any) => {
-    const values = [...stepField];
-    values.splice(values.findIndex(value => value.id === id), 1);
-    setStepField(values);
-  }
-
   const [ingredientsField, setIngredientsField] = useState([
     { id: uuidv4(), value: "" },
   ]);
-
-  const removeIngredientsField = (id: any) => {
-    const values = [...ingredientsField];
-    values.splice(values.findIndex(value => value.id === id), 1);
-    setIngredientsField(values);
-  }
 
   const [basicField, setBasicField] = useState([
     { id: uuidv4(), value: "" },
@@ -53,19 +62,8 @@ export const AddRecipe = () => {
     { id: uuidv4(), value: "" },
   ]);
 
-  const handleInputChange = (id: string, event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, field: { id: string; value: string; }[], setter: any) => {
-    const newInputFields = field.map(i => {
-      if (id === i.id) {
-        i.value = event.target.value
-      }
-      return i;
-    })
-
-    setter(newInputFields);
-  }
-
-  const [tagField, setTagField] = useState([
-    { id: uuidv4(), value: "" },
+  const [categoryField, setCategoryField] = useState([
+    { id: "", value: "" },
   ]);
 
   const handleSubmit = async (event) => {
@@ -80,7 +78,7 @@ export const AddRecipe = () => {
       description: basicField[3].value,
       steps: stepField.map(x => x.value).join("\n"),
       //steps: stepField[0].value,
-      categoryId: categoryOptions[0].id,
+      categoryId: categoryField[0].id,
       userId: "f8fb2811-b24a-495e-aa5a-840ba5cb1a34",
     };
     const url = path.path.recipes;
@@ -104,310 +102,51 @@ export const AddRecipe = () => {
 
   };
 
-
-  let errorCount: number = 0;
-
-  const handleErrorChange = (cond: boolean) => {
-    if (cond) errorCount++;
-
-    return cond;
-  }
-
   const [fileField, setFileField] = useState<{ id: string, file: ArrayBuffer, url: string }[]>([]);
 
-  const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (fileField.length == 0) {
-      setFileField([]);
-    }
+  let errorCount = 0;
 
-    if (!event.target.files) {
-      return;
-    }
+  const [basicInputErrorCount, setBasicInputErrorCount] = useState(0);
+  const [stepInputErrorCount, setStepInputErrorCount] = useState(0);
+  const [ingredientsInputErrorCount, setIngredientsInputErrorCount] = useState(0);
+  const [categoryInputErrorCount, setCategoryInputErrorCount] = useState(0);
 
-    console.log("Got ", event.target.files.length, " files");
+  errorCount += basicInputErrorCount;
+  errorCount += stepInputErrorCount;
+  errorCount += ingredientsInputErrorCount;
+  errorCount += categoryInputErrorCount;
 
-    for (let i = 0; i < event.target.files.length; i++) {
-      if (!event.target.files[i].type.includes('image')) {
-        // give error to user
 
-        console.log("This file is not an image!");
 
-        return;
-      }
-    }
-
-    let tmp: { id: string, file: ArrayBuffer, url: string }[] = [];
-
-    for (let i = 0; i < event.target.files.length; i++) {
-      let helper = true;
-
-      let url = URL.createObjectURL(event.target.files[i]);
-
-      const reader = new FileReader();
-
-      reader.addEventListener("load", function () {
-        // convert image file to base64 string
-        console.log("DATA_URL", reader.result);
-
-        tmp = [...tmp, { id: uuidv4(), file: reader.result! as ArrayBuffer, url: url }];
-
-        helper = false;
-      }, false);
-
-      reader.readAsDataURL(event.target.files[i]);
-
-      // This is horrible, but I don't know how else to do it
-      while (helper) { await new Promise(resolve => setTimeout(resolve, 1000)); }
-    }
-
-    console.log("temp:", tmp);
-
-    setFileField([...fileField, ...tmp]);
-  }
-
-  const [categoryOptions, setCategoryOptions] = useState<{ name: string, id: string }[]>([]);
 
 
   const elem = (
     <Grid container component="form" direction="column">
-      <Typography color="text.primary" variant="h2" sx={{ mb: 2 }}>
-        Add new recipe
-      </Typography>
-      <TextField
-        error={handleErrorChange(basicField[0].value.length < 5)}
-        id="name"
-        label="Name"
-        margin="dense"
-        value={basicField[0].value}
-        onChange={event => handleInputChange(basicField[0].id, event, basicField, setBasicField)}
-      />
-      <Grid container spacing={2} alignItems="center">
-        <Grid item>
-          <TextField
-            error={handleErrorChange(basicField[1].value.length === 0)}
-            id="time"
-            label="Time in minutes"
-            type="number"
-            margin="dense"
-            value={basicField[1].value}
-            onChange={event => handleInputChange(basicField[1].id, event, basicField, setBasicField)}
 
-            InputProps={{
-              inputProps: { min: 1 }
-            }}
-          />
-        </Grid>
-
-        <Grid item>
-          <TextField
-            error={handleErrorChange(basicField[2].value.length === 0)}
-            id="servings"
-            label="Number of servings"
-            type="number"
-            margin="dense"
-            value={basicField[2].value}
-            onChange={event => handleInputChange(basicField[2].id, event, basicField, setBasicField)}
-
-            InputProps={{
-              inputProps: { min: 1 }
-            }}
-          />
-        </Grid>
-      </Grid>
-
-      <Grid container direction="column">
-        <Typography color="text.primary">
-          Meal description:
-        </Typography>
-        <TextField
-          error={handleErrorChange(basicField[3].value.length < 5)}
-          id="description"
-          label="Description"
-          margin="dense"
-          value={basicField[3].value}
-          onChange={event => handleInputChange(basicField[3].id, event, basicField, setBasicField)}
-        />
-      </Grid>
+      <BasicInput basicField={basicField} setBasicField={setBasicField} setIntraErrors={setBasicInputErrorCount} />
 
       <Grid item sx={{ mt: 1 }}>
+
         <Grid container spacing={2}>
 
-
           <Grid item xs={4}>
-            <Typography color="text.primary">
-              Steps:
-            </Typography>
-            <Grid>
-              <Grid>
-                {stepField.map((inputField, index) => (
-                  <Grid container alignItems="center">
-                    <Typography color="text.primary">
-                      Step {index + 1}: &nbsp;
-                    </Typography>
-                    <TextField
-                      error={handleErrorChange(inputField.value.length < 1)}
-                      id={inputField.id}
-                      margin="dense"
-                      label={index}
-                      value={inputField.value}
-                      onChange={event => handleInputChange(inputField.id, event, stepField, setStepField)}
-                    />
-                    <IconButton disabled={stepField.length === 1} onClick={() => removeStepField(inputField.id)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </Grid>
-                ))}
-              </Grid>
-              <IconButton onClick={() => setStepField([...stepField, { id: uuidv4(), value: "" }])}><AddIcon /></IconButton>
-            </Grid>
+            <Steps stepField={stepField} setStepField={setStepField} setIntraErrors={setStepInputErrorCount}/>
           </Grid>
 
           <Grid item xs={8}>
-            <Typography color="text.primary">
-              Ingrediences (don't forget to add the unit of measurement):
-            </Typography>
-            <Grid>
-              <Grid>
-                {ingredientsField.map((inputField, index) => (
-                  <Grid container alignItems="center">
-                    <Typography color="text.primary">
-                      Ingredient {index + 1}: &nbsp;
-                    </Typography>
-                    <TextField
-                      error={handleErrorChange(inputField.value.length < 1)}
-                      id={inputField.id}
-                      margin="dense"
-                      label={index}
-                      value={inputField.value}
-                      onChange={event => handleInputChange(inputField.id, event, ingredientsField, setIngredientsField)}
-                    />
-                    <IconButton disabled={ingredientsField.length === 1} onClick={() => removeIngredientsField(inputField.id)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </Grid>
-                ))}
-              </Grid>
-              <IconButton onClick={() => setIngredientsField([...ingredientsField, { id: uuidv4(), value: "" }])}><AddIcon /></IconButton>
-            </Grid>
+            <Ingredients ingredientsField={ingredientsField} setIngredientsField={setIngredientsField} setIntraErrors={setIngredientsInputErrorCount}/>
           </Grid>
 
           <Grid item>
-            <Grid container direction="row">
-              {
-                fileField.length > 0 &&
-
-                <>
-                  {fileField.map((inputField, index) => (
-                    <Grid item>
-                      <Typography color="text.primary">
-                        Image {index + 1}
-                      </Typography>
-                      <Grid container alignItems="center">
-                        <Card className={'a'}>
-                          <CardActionArea>
-                            <CardMedia
-                              component="img"
-                              alt="Contemplative Reptile"
-                              height="255"
-                              width="255"
-                              image={inputField.url}
-                              title="Contemplative Reptile"
-                            />
-                          </CardActionArea>
-                        </Card>
-                        <IconButton onClick={() => {
-                          const values = [...fileField];
-                          values.splice(index, 1);
-                          setFileField(values);
-                        }}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </Grid>
-                    </Grid>
-                  ))}
-                </>
-              }
-            </Grid>
-
-            <Typography color="text.primary" sx={{ mt: 2 }}>
-              Upload your recipe photos:
-            </Typography>
-            <Grid item>
-              <label htmlFor="contained-button-file">
-                <Input
-                  accept="image/*"
-                  id="contained-button-file"
-                  multiple
-                  type="file"
-                  onChange={event => handleChange(event)}
-                />
-                <Button variant="contained" component="span" onClick={(event: any) => handleChange(event)}>
-                  Upload photo
-                </Button>
-              </label>
-            </Grid>
+            <Images fileField={fileField} setFileField={setFileField}/>
           </Grid>
 
-
         </Grid>
+
       </Grid>
 
       <Grid item sx={{ mt: 3 }} xs={8}>
-        <Typography color="text.primary">
-          Tags:
-        </Typography>
-        <Grid>
-          <Grid>
-            {tagField.map((inputField, index) => (
-              <Grid container alignItems="center">
-                <Typography color="text.primary">
-                  Tag {index + 1}: &nbsp;
-                </Typography>
-                <TextField
-                  error={handleErrorChange(inputField.value.length < 1)}
-                  id={inputField.id}
-                  margin="dense"
-                  label={index}
-                  value={inputField.value}
-                  onChange={event => handleInputChange(inputField.id, event, tagField, setTagField)}
-
-                  select
-                  SelectProps={{
-                    native: true,
-                  }}
-                  helperText="Please select your category"
-
-                  onClick={async () => {
-                    if (categoryOptions.length === 0) {
-                      let res = await axios.get(path.path.category);
-
-                      if (res.statusText != "OK") {
-                        console.log("Error here:", res);
-                        return;
-                      }
-
-                      setCategoryOptions(res.data.data);
-                    }
-                  }}
-                >
-                  {categoryOptions.map((option) => (
-                    <option key={option.id} value={option.name}>
-                      {option.name}
-                    </option>
-                  ))}
-                </TextField>
-                <IconButton disabled={tagField.length === 1} onClick={() => {
-                  const values = [...tagField];
-                  values.splice(index, 1);
-                  setTagField(values);
-                }}>
-                  <DeleteIcon />
-                </IconButton>
-              </Grid>
-            ))}
-          </Grid>
-          <IconButton onClick={() => setTagField([...tagField, { id: uuidv4(), value: "" }])}><AddIcon /></IconButton>
-        </Grid>
+        <Categories categoryField={categoryField} setCategoryField={setCategoryField} setIntraErrors={setCategoryInputErrorCount}/>
       </Grid>
 
       <Grid item sx={{ mt: 2 }}>
@@ -422,9 +161,9 @@ export const AddRecipe = () => {
   console.log("ingredients:", ingredientsField);
   console.log("steps:", stepField);
   console.log("basic:", basicField);
-  console.log(errorCount);
+  console.log("ERRORS:", errorCount);
   console.log("FILE FIELD:", fileField);
-  console.log(tagField);
+  console.log(categoryField);
 
   return elem;
 }

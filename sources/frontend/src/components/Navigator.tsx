@@ -118,7 +118,7 @@ export const Navigator = (props: NavigatorProps) => {
               console.log("res", result);
 
               let result2 = await Promise.all(result).then((values) => values);
-              console.log("finalreisalt", result2);
+              console.log("finalResult", result2);
 
               props.changeViewWithData(result2, Components.SearchResult);
               }}>
