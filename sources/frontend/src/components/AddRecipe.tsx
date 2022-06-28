@@ -79,9 +79,35 @@ export const AddRecipe = () => {
         return;
       }
 
+      const reader = new FileReader();
+
+      reader.readAsBinaryString(fileField[0].fileBin);
+
+      let body;
+
+      let helper: Boolean = false;
+
+      reader.onload = function () {
+        console.log("RESULT:", reader.result);
+        body = reader.result;
+        helper = true;
+      }
+
+      while (!helper) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        console.log("CYCLING:", reader.readyState);
+      }
+
+      console.log("BODY: ", body);
+
+
       console.log("Adding the picture now to" + x.data.data);
-      console.log(fileField[0].file);
-      let res2 = await axios.post(url + x.data.data + "/image", encodeURIComponent(fileField[0].file)).then(y => {
+      console.log(fileField[0].fileBin);
+      let formData = new FormData();
+      formData.append('body', fileField[0].fileBin);
+      console.log("formData:", formData);
+      let res2 = await axios.post(url + x.data.data + "/image2", formData).then(y => {
+
         console.log(y);
         console.log("Image upload done");
       })
