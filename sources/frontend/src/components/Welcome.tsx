@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import axios from 'axios';
-import { RecipeProps } from './Recipe';
+import { getImages, RecipeProps } from './Recipe';
 import { Components } from './Cookbook';
 import path from './path.json';
 
@@ -46,6 +46,9 @@ export const Welcome = (props: WelcomeProps) => {
 					.then(x => x);
 					console.log("pp", resCategory, index)
 
+					let images = await getImages(p.id);
+					console.log("AAAAA", images);
+
 					if (resCategory.statusText != "OK") {
 						console.log("Error here:", resCategory);
 						return;
@@ -59,7 +62,8 @@ export const Welcome = (props: WelcomeProps) => {
 						description: p.description,
 						category: resCategory.data.data,
 						ingredients: p.ingredients,
-						steps: p.steps
+						steps: p.steps,
+						imageURL: images
 					};
 					return res;
 				});

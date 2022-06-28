@@ -1,12 +1,13 @@
 import Grid from '@mui/material/Grid';
-import {MiniRecipe} from './MiniRecipe';
+import { MiniRecipe } from './MiniRecipe';
 import { useNavigate } from 'react-router-dom';
 
 export type SearchProps = {
 	recipe: {
-			name: string;
-			time: string;
-			image: string;
+			name: string,
+			time: string,
+			image: string,
+			imageURL: string,
 	}[];
 }
 
@@ -27,7 +28,7 @@ export const SearchResult = (props: SearchRecipeProps) => {
 						navigation('/recipe/' + p.id);
 						props.changeView(p);
 					}}>
-						<MiniRecipe key={p.id} rec_id={p.id} name={p.name} timeComplexity={p.timeComplexity} />
+						<MiniRecipe key={p.id} rec_id={p.id} name={p.name} timeComplexity={p.timeComplexity} imageURL={p.imageURL} />
 					</div>
 				</Grid>)})}
 		</Grid>

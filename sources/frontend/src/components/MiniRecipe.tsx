@@ -9,9 +9,10 @@ import {Link} from "react-router-dom";
 
 
 export type MiniRecipeProps = {
-	name: any;
-	rec_id: string;
-	timeComplexity: any;
+	name: string,
+	rec_id: string,
+	timeComplexity: any,
+	imageURL: string,
 }
 
 export const MiniRecipe = (props: MiniRecipeProps) => {
@@ -30,7 +31,7 @@ export const MiniRecipe = (props: MiniRecipeProps) => {
 							width: 200
 						}}
 						alt="Food photo."
-						src={data.photos[Math.floor(Math.random() * data.photos.length)]}
+						src={"http://localhost:3003/" + props.imageURL}
 					/>
 				</Grid>
 				<Grid item>

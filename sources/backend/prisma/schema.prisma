@@ -14,8 +14,8 @@ model Recipe {
   portions       Int
   ingredients    String[]
   steps          String[]
-  description    String
   categoryId     String
+  description    String
   category       Category        @relation(fields: [categoryId], references: [id])
   Image          Image[]
   TagsOnRecipes  TagsOnRecipes[]
@@ -28,9 +28,9 @@ model Category {
 }
 
 model Image {
-  id       String @id @default(uuid())
-  base64   String
   recipeId String
+  base64   String
+  id       String @id @default(uuid())
   recipe   Recipe @relation(fields: [recipeId], references: [id])
 }
 

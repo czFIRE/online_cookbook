@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 
 import data from "./path.json";
 import { List, ListItem } from '@mui/material';
+import axios from 'axios';
 
 export type RecipeProps = {
 	name: string,
@@ -15,17 +16,35 @@ export type RecipeProps = {
 	category: string,
 	ingredients: string[],
 	steps: string[],
+	imageURL: string,
+}
+
+export const getImages = async (id: string) => {
+	const ret = `//localhost:3003/recipe/${id}/image`;
+	console.log("LOKACE:", ret);
+	return await axios.get(ret).then(x => {
+		console.log("ZDE?!", x)
+
+		let tmp = x.data.data.Image[0].base64;
+
+		console.log("Máme to?", tmp);
+
+		return tmp;
+	});
 }
 
 export const Recipe = (props: RecipeProps) => {
 	console.log("INGREDIENTS:", props.ingredients);
 	console.log("IMAGE:", data.photos[Math.floor(Math.random() * data.photos.length)]);
 	console.log("HEHE:", props.ingredients[0].split("\n"));
+	console.log("OBRZA:", props.imageURL);
 	return (
-		<Paper sx={{ margin: 'auto', overflow: 'hidden' }}>
+		<Paper sx={{ margin: 'auto', overflow: 'hidden' }} >
 			<Grid container direction="column" spacing={1}>
 				<Grid item>
-					<Typography color="text.primary" variant="h2" sx={{ mt: 1 }}>
+					<Typography color="text.primary" variant="h2" sx={{ mt: 1 }} onChange={async () => {
+						console.log("COTO?", await getImages(props.id).then(x => x));
+					}}>
 						{props.name}
 					</Typography>
 				</Grid>
@@ -39,10 +58,10 @@ export const Recipe = (props: RecipeProps) => {
 									maxHeight: { xs: 250 },
 									maxWidth: { xs: 250 },
 								}}
+
 								alt="Food photo."
-								src={"http://localhost:3000/" + data.photos[Math.floor(Math.random() * data.photos.length)]}
-								//src={() => {return ""}}
-								//src="http://localhost:3000/breakfast-1804457__340.jpg"
+								//src={"http://localhost:3000/" + data.photos[Math.floor(Math.random() * data.photos.length)]}
+								src={"http://localhost:3003/" + props.imageURL}
 							/>
 						</Grid>
 						<Grid item sx={{ ml: 2 }}>
@@ -87,7 +106,7 @@ export const Recipe = (props: RecipeProps) => {
 									Steps:
 								</Typography>
 								<Grid>
-								<List sx={{ listStyleType: 'decimal' }}>
+									<List sx={{ listStyleType: 'decimal' }}>
 										{props.steps[0].split("\n").map((i) => {
 											return (
 												<ListItem sx={{ display: 'list-item', ml: 2 }}>
@@ -104,7 +123,7 @@ export const Recipe = (props: RecipeProps) => {
 									Description:
 								</Typography>
 								<Typography color="text.secondary">
-									<br/>
+									<br />
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {props.description}
 								</Typography>
 							</Grid>
