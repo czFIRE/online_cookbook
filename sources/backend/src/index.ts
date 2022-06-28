@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { recipe, category, image } from './resources';
+import multer = require('multer');
 
 const api = express();
 
@@ -17,6 +18,7 @@ api.get('/recipe/:id',            recipe.show);
 api.post('/recipe',               recipe.create);
 api.get('/recipe/:id/image',      recipe.getImages);
 api.post('/recipe/:id/image',     image.upload)
+api.post('/recipe/:id/image2',    multer().single('body'), image.upload)
 api.delete('/recipe/:id',         recipe.destroy);
 
 // Categories

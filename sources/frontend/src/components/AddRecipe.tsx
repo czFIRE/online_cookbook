@@ -90,9 +90,35 @@ export const AddRecipe = () => {
         return;
       }
 
+      const reader = new FileReader();
+
+      reader.readAsBinaryString(fileField[0].fileBin);
+
+      let body;
+
+      let helper: Boolean = false;
+
+      reader.onload = function () {
+        console.log("RESULT:", reader.result);
+        body = reader.result;
+        helper = true;
+      }
+
+      while (!helper) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        console.log("CYCLING:", reader.readyState);
+      }
+
+      console.log("BODY: ", body);
+
+
       console.log("Adding the picture now to" + x.data.data);
-      console.log(fileField[0].file);
-      let res2 = await axios.post(url + x.data.data + "/image", encodeURIComponent(fileField[0].file)).then(y => {
+      console.log(fileField[0].fileBin);
+      let formData = new FormData();
+      formData.append('body', fileField[0].fileBin);
+      console.log("formData:", formData);
+      let res2 = await axios.post(url + x.data.data + "/image2", formData).then(y => {
+
         console.log(y);
         console.log("Image upload done");
       })
@@ -119,7 +145,7 @@ export const AddRecipe = () => {
     return cond;
   }
 
-  const [fileField, setFileField] = useState<{ id: string, file: string, url: string }[]>([]);
+  const [fileField, setFileField] = useState<{ id: string, file: string, url: string, fileBin: File }[]>([]);
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (fileField.length == 0) {
@@ -142,12 +168,14 @@ export const AddRecipe = () => {
       }
     }
 
-    let tmp: { id: string, file: string, url: string }[] = [];
+    let tmp: { id: string, file: string, url: string, fileBin: File }[] = [];
 
     for (let i = 0; i < event.target.files.length; i++) {
       let helper = true;
 
-      let url = URL.createObjectURL(event.target.files[i]);
+      let fileTMP = event!.target!.files[i]!;
+
+      let url = URL.createObjectURL(fileTMP);
 
       const reader = new FileReader();
 
@@ -155,13 +183,13 @@ export const AddRecipe = () => {
         // convert image file to base64 string
         console.log("DATA_URL", reader.result);
 
-        tmp = [...tmp, { id: uuidv4(), file: reader.result! as string, url: url }];
+        tmp = [...tmp, { id: uuidv4(), file: reader.result! as string, url: url, fileBin: fileTMP }];
 
         helper = false;
       }, false);
 
       reader.readAsDataURL(event.target.files[i]);
-
+      debugger;
       // This is horrible, but I don't know how else to do it
       while (helper) { await new Promise(resolve => setTimeout(resolve, 1000)); }
     }
